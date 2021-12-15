@@ -2,11 +2,16 @@
 # coding: utf-8
 
 
-def parcours_graphe(g):
-    """ Cette fonction permet de parcourir un graphe. """
+def parcours_graphe(g, ordre=None):
+    """ Cette fonction permet de parcourir un graphe.
+    
+        ordre (optionnel) : ordre de parcours des noeuds.
+        
+    """
     g = DiGraph(g)
     noeuds = g.vertices()
-    deja_vu = [False for i in range(len(noeuds))]
+    deja_vu = [False for i in range(len(noeuds))] #todo remplacer par un dico ?
+        # car les noeuds ne sont pas forcément à la suite
     
     def parcours(noeud):
         """ Parcours individuel de chaque noeud. """      
@@ -33,10 +38,14 @@ def parcours_graphe(g):
             return True
         else:
             return False
+    
+    if ordre: # si on a un ordre de parcours des noeuds
         
-        
-    deja_vu[0] = True
-    parcours(noeuds[0])
+    else:
+        for i in range(len(noeuds)):
+            if not deja_vu[i]:
+                deja_vu[i] = True
+                parcours(noeuds[i])
     print(est_connexe())
 
 
