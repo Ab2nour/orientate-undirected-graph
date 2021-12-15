@@ -80,6 +80,10 @@ parcours_graphe(g)
 g.add_vertex(25)
 parcours_graphe(g)
 
+a = parcours_graphe(g)
+a.plot(edge_colors=a._color_by_label({'arriere': '#2f80ed'}))
 
+
+ordre = [4, 3, 2, 1, 9, 8, 7, 6, 5, 0]
 
 
