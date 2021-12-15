@@ -2,6 +2,11 @@
 # coding: utf-8
 
 
+# couleurs utilisées pour les parcours
+BLANC = 0
+GRIS = 1
+NOIR = 2
+
 def parcours_graphe(g, ordre=None):
     """
     Cette fonction permet de parcourir un graphe.
@@ -11,9 +16,14 @@ def parcours_graphe(g, ordre=None):
     
     g = DiGraph(g)
     noeuds = g.vertices()
+    
     deja_vu = [False for i in range(len(noeuds))] #todo remplacer par un dico ?
         # car les noeuds ne sont pas forcément à la suite
+        
+    couleur = [BLANC for i in range(len(noeuds))] # chaque noeud est blanc au début
     
+    arbre_parcours = DiGraph() # DFS-tree T
+    arbre_parcours.add_vertices(noeuds)
     
     def parcours(noeud):
         """ Parcours individuel de chaque noeud. """      
@@ -21,9 +31,15 @@ def parcours_graphe(g, ordre=None):
         
         for voisin in g.neighbors_out(noeud):
             print('\t', voisin)
-            if deja_vu[voisin] == False:
+            
+            if deja_vu[voisin] == False: # arc avant
                 deja_vu[voisin] = True
+                arbre_parcours.add_edge([voisin, noeud])                
                 parcours(voisin)
+                
+            else: # arc arrière
+                arbre_parcours.add_edge([noeud, voisin])
+                
         print('fin', noeud)
     
     
@@ -54,6 +70,8 @@ def parcours_graphe(g, ordre=None):
                 deja_vu[i] = True
                 parcours(noeuds[i])
     print(est_connexe())
+    
+    return arbre_parcours
 
 
 g = Graph()
