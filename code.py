@@ -18,6 +18,7 @@ def parcours_graphe(g, ordre=None):
     noeuds = g.vertices()
             
     couleur = {n: BLANC for n in noeuds} # tous les noeuds sont blancs au début
+    deja_vu = {n: False for n in noeuds} # pour la décomposition en chaînes
     
     ordre_dfi = [] # DFI-order
         
@@ -71,28 +72,32 @@ def parcours_graphe(g, ordre=None):
                     parcours(n)
     
     
-    def parcours(noeud):
-        """ Parcours individuel de chaque noeud. """  
+    def parcours_decomposition_chaine(noeud):
+        """ 
+        Parcours individuel de chaque noeud,
+        pour la décomposition en chaînes.
+        Ici, on s'arrête dès qu'on rencontre un noeud déjà visité.
+        """  
+        #todo: compteur d'arêtes visitées
         
         print('debut', noeud)        
-        couleur[noeud] = GRIS
+        deja_vu[noeud] = True
         
         ordre_dfi.append(noeud)
         
         for voisin in g.neighbors_out(noeud):
             print('\t', voisin)
             
-            if couleur[voisin] == BLANC: # arc avant
+            if not deja_vu[voisin]:
                 arbre_parcours.add_edge([voisin, noeud], label='arbre')                
                 parcours(voisin)
                 
-            elif couleur[voisin] == GRIS: # arc arrière
+            elif deja_vu[voisin] == GRIS: # arc arrière
                 if voisin not in arbre_parcours.neighbors_out(noeud):
                     arbre_parcours.add_edge([voisin, noeud], label='arriere')  
         
               
         print('fin', noeud)
-        couleur[noeud] = NOIR
     
     # code
     lance_parcours()
