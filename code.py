@@ -24,6 +24,7 @@ def parcours_graphe(g, ordre=None):
     arbre_parcours = DiGraph() # DFS-tree T (contient *aussi* les arc arrières !)
     arbre_parcours.add_vertices(noeuds) # on met tous les noeuds de G dans T
     
+    
     def parcours(noeud):
         """ Parcours individuel de chaque noeud. """  
         
@@ -48,7 +49,6 @@ def parcours_graphe(g, ordre=None):
         couleur[noeud] = NOIR
         
     
-    
     def est_connexe():
         """ 
         Renvoie True si le graphe est connexe, False sinon.
@@ -57,17 +57,47 @@ def parcours_graphe(g, ordre=None):
         return not(BLANC in couleur.values())
     
     
-    if ordre: # si on a un ordre de parcours des noeuds        
-        for n in ordre:
-            if couleur[n] == BLANC:
-                parcours(n)
-    else:
-        for n in noeuds:
-            if couleur[n] == BLANC:                
-                parcours(n)
+    def lance_parcours():
+        """
+        Fonction qui lance le parcours en profondeur
+        """    
+        if ordre: # si on a un ordre de parcours des noeuds        
+            for n in ordre:
+                if couleur[n] == BLANC:
+                    parcours(n)
+        else:
+            for n in noeuds:
+                if couleur[n] == BLANC:                
+                    parcours(n)
     
     
+    def parcours(noeud):
+        """ Parcours individuel de chaque noeud. """  
+        
+        print('debut', noeud)        
+        couleur[noeud] = GRIS
+        
+        ordre_dfi.append(noeud)
+        
+        for voisin in g.neighbors_out(noeud):
+            print('\t', voisin)
+            
+            if couleur[voisin] == BLANC: # arc avant
+                arbre_parcours.add_edge([voisin, noeud], label='arbre')                
+                parcours(voisin)
+                
+            elif couleur[voisin] == GRIS: # arc arrière
+                if voisin not in arbre_parcours.neighbors_out(noeud):
+                    arbre_parcours.add_edge([voisin, noeud], label='arriere')  
+        
+              
+        print('fin', noeud)
+        couleur[noeud] = NOIR
+    
+    # code
+    lance_parcours()
     print(est_connexe())
+    print(f'ordre DFI {ordre_dfi}')
     
     return arbre_parcours
 
