@@ -18,6 +18,7 @@ def parcours_graphe(g, ordre=None):
     
     ordre (optionnel) : ordre de parcours des noeuds.        
     """
+    global nb_aretes_visitees
     
     g = DiGraph(g) # on convertit les graphes non-orientés en orientés
     noeuds = g.vertices()
@@ -27,6 +28,8 @@ def parcours_graphe(g, ordre=None):
     
     ordre_dfi = [] # DFI-order
     nb_aretes_visitees = 0 # pour la décomposition en chaînes
+    
+    chaines = []
         
     arbre_parcours = DiGraph() # DFS-tree T (contient *aussi* les arc arrières !)
     arbre_parcours.add_vertices(noeuds) # on met tous les noeuds de G dans T
@@ -78,7 +81,7 @@ def parcours_graphe(g, ordre=None):
                     parcours(n)
     
     
-    def parcours_decomposition_chaine(noeud, t=arbre_parcours, ic):
+    def parcours_decomposition_chaine(noeud, ic, t=arbre_parcours):
         """ 
         Parcours individuel de chaque noeud,
         pour la décomposition en chaînes.
@@ -86,7 +89,7 @@ def parcours_graphe(g, ordre=None):
         
         ic: indice de la chaîne dans laquelle on rajoute les noeuds
         """  
-        #todo: compteur d'arêtes visitées
+        global nb_aretes_visitees
         
         print('debut', noeud)        
         deja_vu[noeud] = True
@@ -101,7 +104,7 @@ def parcours_graphe(g, ordre=None):
             
             else:
                 nb_aretes_visitees += 1
-                resultat = parcours(voisin)
+                resultat = parcours_decomposition_chaine(voisin, ic)
                 
                 if resultat == STOP:
                     return STOP
@@ -116,19 +119,25 @@ def parcours_graphe(g, ordre=None):
         à partir de l'arbre de parcours.
         """
         
-        chaines = []
         indice_chaine = 0 # sert à indicer la liste 'chaines'
         
         #ordre de parcours des noeuds        
         for n in ordre:
             if not deja_vu[n]:
-                parcours_decomposition_chaine(n, t, indice_chaine)
+                chaines.append([])
+                parcours_decomposition_chaine(n, indice_chaine, t)
+                indice_chaine += 1
                 
         return chaines
     
     
     # code
     lance_parcours()
+    print("---------- DECOMPO EN CHAINES ----------")
+    decomposition_en_chaines()
+    
+    print(chaines)
+    
     print(est_connexe())
     print(f'ordre DFI {ordre_dfi}')
     
