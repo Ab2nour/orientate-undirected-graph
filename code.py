@@ -82,12 +82,14 @@ parcours_graphe(g)
 
 a = parcours_graphe(g)
 
-options_couleurs = {
+options_couleurs = { # pour l'AFFICHAGE du graphe
     'arbre': '#333', # couleur des arcs de l'arbre de parcours 
     'arriere': '#a0a0a0' # couleur des arcs arrières
 }
 
 a.plot(edge_colors=a._color_by_label(options_couleurs))
+
+plot_couleur = lambda arbre : arbre.plot(edge_colors=arbre._color_by_label(options_couleurs))
 
 
 ordre = [4, 3, 2, 1, 9, 8, 7, 6, 5, 0]
