@@ -21,6 +21,7 @@ def parcours_graphe(g, ordre=None):
     deja_vu = {n: False for n in noeuds} # pour la décomposition en chaînes
     
     ordre_dfi = [] # DFI-order
+    nb_aretes_visitees = 0 # pour la décomposition en chaînes
         
     arbre_parcours = DiGraph() # DFS-tree T (contient *aussi* les arc arrières !)
     arbre_parcours.add_vertices(noeuds) # on met tous les noeuds de G dans T
@@ -60,7 +61,7 @@ def parcours_graphe(g, ordre=None):
     
     def lance_parcours():
         """
-        Fonction qui lance le parcours en profondeur
+        Fonction qui lance le parcours en profondeur.
         """    
         if ordre: # si on a un ordre de parcours des noeuds        
             for n in ordre:
@@ -98,6 +99,24 @@ def parcours_graphe(g, ordre=None):
         
               
         print('fin', noeud)
+        
+        
+    
+    def decomposition_en_chaines(t=arbre_parcours, ordre=ordre_dfi):
+        """
+        Fonction qui effectue la décomposition en chaîne,
+        à partir de l'arbre de parcours.
+        """
+        
+        chaines = []
+        
+        #ordre de parcours des noeuds        
+        for n in ordre:
+            if not deja_vu[n]:
+                parcours_decomposition_chaine(n)
+                
+        return chaines
+    
     
     # code
     lance_parcours()
