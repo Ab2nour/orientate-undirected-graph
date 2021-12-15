@@ -63,12 +63,18 @@ def parcours_graphe(g, ordre=None):
         for i in range(len(ordre)):
             if not deja_vu[i]:
                 deja_vu[ordre[i]] = True
-                parcours(ordre[i])
+                
+                couleur[ordre[i]] = GRIS
+                parcours(ordre[i])                
+                couleur[ordre[i]] = NOIR
     else:
         for i in range(len(noeuds)):
             if not deja_vu[i]:
                 deja_vu[i] = True
-                parcours(noeuds[i])
+                
+                couleur[noeuds[i]] = GRIS
+                parcours(noeuds[i])      
+                couleur[noeuds[i]] = NOIR
     print(est_connexe())
     
     return arbre_parcours
