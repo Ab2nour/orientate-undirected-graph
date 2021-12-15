@@ -7,6 +7,11 @@ BLANC = 0
 GRIS = 1
 NOIR = 2
 
+
+# pour décomposition en chaînes :
+STOP = 'STOP'
+
+
 def parcours_graphe(g, ordre=None):
     """
     Cette fonction permet de parcourir un graphe.
