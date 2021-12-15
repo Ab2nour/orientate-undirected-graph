@@ -18,6 +18,8 @@ def parcours_graphe(g, ordre=None):
     noeuds = g.vertices()
             
     couleur = {n: BLANC for n in noeuds} # tous les noeuds sont blancs au début
+    
+    date_fin = {n: -1 for n in noeuds} # tous les noeuds sont blancs au début
         
     arbre_parcours = DiGraph() # DFS-tree T (contient *aussi* les arc arrières !)
     arbre_parcours.add_vertices(noeuds) # on met tous les noeuds de G dans T
