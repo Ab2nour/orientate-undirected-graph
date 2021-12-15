@@ -87,7 +87,7 @@ options_couleurs = {
     'arriere': '#a0a0a0' # couleur des arcs arrières
 }
 
-a.plot(edge_colors=a._color_by_label())
+a.plot(edge_colors=a._color_by_label(options_couleurs))
 
 
 ordre = [4, 3, 2, 1, 9, 8, 7, 6, 5, 0]
