@@ -14,7 +14,7 @@ def parcours_graphe(g, ordre=None):
     ordre (optionnel) : ordre de parcours des noeuds.        
     """
     
-    g = DiGraph(g)
+    g = DiGraph(g) # on convertit les graphes non-orientés en orientés
     noeuds = g.vertices()
     
     deja_vu = [False for i in range(len(noeuds))] #todo remplacer par un dico ?
@@ -23,11 +23,13 @@ def parcours_graphe(g, ordre=None):
     couleur = [BLANC for i in range(len(noeuds))] # chaque noeud est blanc au début
     
     arbre_parcours = DiGraph() # DFS-tree T
-    arbre_parcours.add_vertices(noeuds)
+    arbre_parcours.add_vertices(noeuds) # on met tous les noeuds de G dans T
     
     def parcours(noeud):
-        """ Parcours individuel de chaque noeud. """      
-        print(noeud)
+        """ Parcours individuel de chaque noeud. """  
+        
+        print('debut', noeud)        
+        couleur[noeud] = GRIS
         
         for voisin in g.neighbors_out(noeud):
             print('\t', voisin)
@@ -37,10 +39,13 @@ def parcours_graphe(g, ordre=None):
                 arbre_parcours.add_edge([voisin, noeud])                
                 parcours(voisin)
                 
-            else: # arc arrière
+            elif couleur[voisin] == GRIS: # arc arrière
                 arbre_parcours.add_edge([noeud, voisin])
-                
+        
+              
         print('fin', noeud)
+        couleur[noeud] = NOIR
+        
     
     
     def est_connexe():
@@ -63,10 +68,7 @@ def parcours_graphe(g, ordre=None):
         for i in range(len(ordre)):
             if not deja_vu[i]:
                 deja_vu[ordre[i]] = True
-                
-                couleur[ordre[i]] = GRIS
-                parcours(ordre[i])                
-                couleur[ordre[i]] = NOIR
+                parcours(ordre[i])          
     else:
         for i in range(len(noeuds)):
             if not deja_vu[i]:
@@ -75,6 +77,8 @@ def parcours_graphe(g, ordre=None):
                 couleur[noeuds[i]] = GRIS
                 parcours(noeuds[i])      
                 couleur[noeuds[i]] = NOIR
+    
+    
     print(est_connexe())
     
     return arbre_parcours
