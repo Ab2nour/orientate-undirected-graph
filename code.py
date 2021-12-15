@@ -100,7 +100,7 @@ def parcours_graphe(g, ordre=None):
         
         print(f'voisins_tries = {voisins_tries}')
         
-        for voisin in voisins_tries:
+        for voisin in voisins:
             print('\t', voisin)
             
             if deja_vu[voisin]: # on s'arrête
