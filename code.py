@@ -19,7 +19,7 @@ def parcours_graphe(g, ordre=None):
             
     couleur = {n: BLANC for n in noeuds} # tous les noeuds sont blancs au début
         
-    arbre_parcours = DiGraph() # DFS-tree T
+    arbre_parcours = DiGraph() # DFS-tree T (contient *aussi* les arc arrières !)
     arbre_parcours.add_vertices(noeuds) # on met tous les noeuds de G dans T
     
     def parcours(noeud):
@@ -32,12 +32,12 @@ def parcours_graphe(g, ordre=None):
             print('\t', voisin)
             
             if couleur[voisin] == BLANC: # arc avant
-                arbre_parcours.add_edge([voisin, noeud])                
+                arbre_parcours.add_edge([voisin, noeud], label='arbre')                
                 parcours(voisin)
                 
             elif couleur[voisin] == GRIS: # arc arrière
                 if voisin not in arbre_parcours.neighbors_out(noeud):
-                    arbre_parcours.add_edge([voisin, noeud])  
+                    arbre_parcours.add_edge([voisin, noeud], label='arriere')  
         
               
         print('fin', noeud)
@@ -81,7 +81,13 @@ g.add_vertex(25)
 parcours_graphe(g)
 
 a = parcours_graphe(g)
-a.plot(edge_colors=a._color_by_label({'arriere': '#2f80ed'}))
+
+options_couleurs = {
+    'arbre': '#333', # couleur des arcs de l'arbre de parcours 
+    'arriere': '#a0a0a0' # couleur des arcs arrières
+}
+
+a.plot(edge_colors=a._color_by_label())
 
 
 ordre = [4, 3, 2, 1, 9, 8, 7, 6, 5, 0]
