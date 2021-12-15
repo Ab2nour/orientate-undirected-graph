@@ -30,6 +30,8 @@ def parcours_graphe(g, ordre=None):
         print('debut', noeud)        
         couleur[noeud] = GRIS
         
+        ordre_dfi.append(noeud)
+        
         for voisin in g.neighbors_out(noeud):
             print('\t', voisin)
             
@@ -56,13 +58,13 @@ def parcours_graphe(g, ordre=None):
     
     
     if ordre: # si on a un ordre de parcours des noeuds        
-        for i in range(len(ordre)):
-            if couleur[i] == BLANC:
-                parcours(ordre[i])
+        for n in ordre:
+            if couleur[n] == BLANC:
+                parcours(n)
     else:
-        for i in range(len(noeuds)):
-            if couleur[i] == BLANC:                
-                parcours(noeuds[i])
+        for n in noeuds:
+            if couleur[n] == BLANC:                
+                parcours(n)
     
     
     print(est_connexe())
