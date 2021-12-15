@@ -39,9 +39,7 @@ def parcours_graphe(g, ordre=None):
         """ Parcours individuel de chaque noeud. """  
         
         print('debut', noeud)        
-        couleur[noeud] = GRIS
-        
-        ordre_dfi.append(noeud)
+        couleur[noeud] = GRIS    
         
         for voisin in g.neighbors_out(noeud):
             print('\t', voisin)
@@ -57,6 +55,7 @@ def parcours_graphe(g, ordre=None):
               
         print('fin', noeud)
         couleur[noeud] = NOIR
+        ordre_dfi.append(noeud) 
         
     
     def est_connexe():
@@ -95,11 +94,18 @@ def parcours_graphe(g, ordre=None):
         deja_vu[noeud] = True
         chaines[ic].append(noeud)
         
-        for voisin in t.neighbors_out(noeud):
+        voisins = t.neighbors_out(noeud)
+        fonction_tri = lambda x : ordre_dfi.index(x)
+        voisins_tries = sorted(voisins, key=fonction_tri)
+        
+        print(f'voisins_tries = {voisins_tries}')
+        
+        for voisin in voisins_tries:
             print('\t', voisin)
             
             if deja_vu[voisin]: # on s'arrête
                 chaines[ic].append(voisin)
+                print('fin', noeud)
                 return STOP
             
             else:
@@ -109,7 +115,6 @@ def parcours_graphe(g, ordre=None):
                 if resultat == STOP:
                     return STOP
               
-        print('fin', noeud)
         
         
     
