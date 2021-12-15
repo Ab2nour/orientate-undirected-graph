@@ -40,7 +40,9 @@ def parcours_graphe(g, ordre=None):
                 parcours(voisin)
                 
             elif couleur[voisin] == GRIS: # arc arrière
-                arbre_parcours.add_edge([noeud, voisin])
+                print(f'{voisin} not in {arbre_parcours.neighbors_out(noeud)} : {voisin not in arbre_parcours.neighbors_out(noeud)}')
+                if voisin not in arbre_parcours.neighbors_out(noeud):
+                    arbre_parcours.add_edge([voisin, noeud])  
         
               
         print('fin', noeud)
