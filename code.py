@@ -16,12 +16,9 @@ def parcours_graphe(g, ordre=None):
     
     g = DiGraph(g) # on convertit les graphes non-orientés en orientés
     noeuds = g.vertices()
-    
-    deja_vu = [False for i in range(len(noeuds))] #todo remplacer par un dico ?
-        # car les noeuds ne sont pas forcément à la suite
+            
+    couleur = {n: BLANC for n in noeuds} # tous les noeuds sont blancs au début
         
-    couleur = [BLANC for i in range(len(noeuds))] # chaque noeud est blanc au début
-    
     arbre_parcours = DiGraph() # DFS-tree T
     arbre_parcours.add_vertices(noeuds) # on met tous les noeuds de G dans T
     
@@ -34,13 +31,11 @@ def parcours_graphe(g, ordre=None):
         for voisin in g.neighbors_out(noeud):
             print('\t', voisin)
             
-            if deja_vu[voisin] == False: # arc avant
-                deja_vu[voisin] = True
+            if couleur[voisin] == BLANC: # arc avant
                 arbre_parcours.add_edge([voisin, noeud])                
                 parcours(voisin)
                 
             elif couleur[voisin] == GRIS: # arc arrière
-                print(f'{voisin} not in {arbre_parcours.neighbors_out(noeud)} : {voisin not in arbre_parcours.neighbors_out(noeud)}')
                 if voisin not in arbre_parcours.neighbors_out(noeud):
                     arbre_parcours.add_edge([voisin, noeud])  
         
@@ -53,32 +48,19 @@ def parcours_graphe(g, ordre=None):
     def est_connexe():
         """ 
         Renvoie True si le graphe est connexe, False sinon.
-        On vérifie que chaque sommet a été visité, sinon le graphe
-        n'est pas connexe.
-        """        
-        # somme de 0 et de 1
-        # si chaque sommet a été visité, toutes les cases sont à 1
-        nb_sommets_parcourus = sum(deja_vu)
-        
-        if nb_sommets_parcourus == len(noeuds):
-            return True
-        else:
-            return False
+        On vérifie qu'il ne reste aucun sommet blanc.
+        """                
+        return not(BLANC in couleur.values())
     
     
     if ordre: # si on a un ordre de parcours des noeuds        
         for i in range(len(ordre)):
-            if not deja_vu[i]:
-                deja_vu[ordre[i]] = True
-                parcours(ordre[i])          
+            if couleur[i] == BLANC:
+                parcours(ordre[i])
     else:
         for i in range(len(noeuds)):
-            if not deja_vu[i]:
-                deja_vu[i] = True
-                
-                couleur[noeuds[i]] = GRIS
-                parcours(noeuds[i])      
-                couleur[noeuds[i]] = NOIR
+            if couleur[i] == BLANC:                
+                parcours(noeuds[i])
     
     
     print(est_connexe())
