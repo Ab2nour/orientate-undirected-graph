@@ -21,8 +21,8 @@ def parcours_graphe(g, ordre=None):
         
         for voisin in g.neighbors_out(noeud):
             print('\t', voisin)
-            if deja_vu[voisin] == 0:
-                deja_vu[voisin] = 1
+            if deja_vu[voisin] == False:
+                deja_vu[voisin] = True
                 parcours(voisin)
         print('fin', noeud)
     
@@ -46,7 +46,7 @@ def parcours_graphe(g, ordre=None):
     if ordre: # si on a un ordre de parcours des noeuds        
         for i in range(len(ordre)):
             if not deja_vu[i]:
-                deja_vu[i] = True
+                deja_vu[ordre[i]] = True
                 parcours(ordre[i])
     else:
         for i in range(len(noeuds)):
