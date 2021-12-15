@@ -73,30 +73,33 @@ def parcours_graphe(g, ordre=None):
                     parcours(n)
     
     
-    def parcours_decomposition_chaine(noeud):
+    def parcours_decomposition_chaine(noeud, t=arbre_parcours, ic):
         """ 
         Parcours individuel de chaque noeud,
         pour la décomposition en chaînes.
         Ici, on s'arrête dès qu'on rencontre un noeud déjà visité.
+        
+        ic: indice de la chaîne dans laquelle on rajoute les noeuds
         """  
         #todo: compteur d'arêtes visitées
         
         print('debut', noeud)        
         deja_vu[noeud] = True
+        chaines[ic].append(noeud)
         
-        ordre_dfi.append(noeud)
-        
-        for voisin in g.neighbors_out(noeud):
+        for voisin in t.neighbors_out(noeud):
             print('\t', voisin)
             
-            if not deja_vu[voisin]:
-                arbre_parcours.add_edge([voisin, noeud], label='arbre')                
-                parcours(voisin)
+            if deja_vu[voisin]: # on s'arrête
+                chaines[ic].append(voisin)
+                return STOP
+            
+            else:
+                nb_aretes_visitees += 1
+                resultat = parcours(voisin)
                 
-            elif deja_vu[voisin] == GRIS: # arc arrière
-                if voisin not in arbre_parcours.neighbors_out(noeud):
-                    arbre_parcours.add_edge([voisin, noeud], label='arriere')  
-        
+                if resultat == STOP:
+                    return STOP
               
         print('fin', noeud)
         
@@ -109,11 +112,12 @@ def parcours_graphe(g, ordre=None):
         """
         
         chaines = []
+        indice_chaine = 0 # sert à indicer la liste 'chaines'
         
         #ordre de parcours des noeuds        
         for n in ordre:
             if not deja_vu[n]:
-                parcours_decomposition_chaine(n)
+                parcours_decomposition_chaine(n, t, indice_chaine)
                 
         return chaines
     
