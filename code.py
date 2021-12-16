@@ -18,7 +18,7 @@ def parcours_graphe(g, ordre=None):
     
     ordre (optionnel) : ordre de parcours des noeuds.        
     """
-    global nb_aretes_visitees
+    global nb_aretes_visitees, indice_chaine
     
     g = DiGraph(g) # on convertit les graphes non-orientés en orientés
     noeuds = g.vertices()
@@ -30,6 +30,7 @@ def parcours_graphe(g, ordre=None):
     nb_aretes_visitees = 0 # pour la décomposition en chaînes
     
     chaines = []
+    indice_chaine = 0 # sert à indicer la liste 'chaines'
         
     arbre_parcours = DiGraph() # DFS-tree T (contient *aussi* les arc arrières !)
     arbre_parcours.add_vertices(noeuds) # on met tous les noeuds de G dans T
@@ -39,7 +40,8 @@ def parcours_graphe(g, ordre=None):
         """ Parcours individuel de chaque noeud. """  
         
         print('debut', noeud)        
-        couleur[noeud] = GRIS    
+        couleur[noeud] = GRIS
+        ordre_dfi.append(noeud)
         
         for voisin in g.neighbors_out(noeud):
             print('\t', voisin)
@@ -55,7 +57,6 @@ def parcours_graphe(g, ordre=None):
               
         print('fin', noeud)
         couleur[noeud] = NOIR
-        ordre_dfi.append(noeud) 
         
     
     def est_connexe():
@@ -80,7 +81,7 @@ def parcours_graphe(g, ordre=None):
                     parcours(n)
     
     
-    def parcours_decomposition_chaine(noeud, ic, t=arbre_parcours):
+    def parcours_decomposition_chaine(noeud, t=arbre_parcours):
         """ 
         Parcours individuel de chaque noeud,
         pour la décomposition en chaînes.
@@ -88,11 +89,11 @@ def parcours_graphe(g, ordre=None):
         
         ic: indice de la chaîne dans laquelle on rajoute les noeuds
         """  
-        global nb_aretes_visitees
+        global nb_aretes_visitees, indice_chaine
         
         print('debut', noeud)        
         deja_vu[noeud] = True
-        chaines[ic].append(noeud)
+        chaines[indice_chaine].append(noeud)
         
         voisins = t.neighbors_out(noeud)
         fonction_tri = lambda x : ordre_dfi.index(x)
@@ -100,20 +101,19 @@ def parcours_graphe(g, ordre=None):
         
         print(f'voisins_tries = {voisins_tries}')
         
-        for voisin in voisins:
+        for voisin in voisins_tries:
             print('\t', voisin)
             
             if deja_vu[voisin]: # on s'arrête
-                chaines[ic].append(voisin)
+                chaines[indice_chaine].append(voisin)
+                indice_chaine += 1
+                chaines.append([])
                 print('fin', noeud)
                 return STOP
             
             else:
                 nb_aretes_visitees += 1
-                resultat = parcours_decomposition_chaine(voisin, ic)
-                
-                if resultat == STOP:
-                    return STOP
+                parcours_decomposition_chaine(voisin)
               
         
         
@@ -123,14 +123,13 @@ def parcours_graphe(g, ordre=None):
         Fonction qui effectue la décomposition en chaîne,
         à partir de l'arbre de parcours.
         """
-        
-        indice_chaine = 0 # sert à indicer la liste 'chaines'
-        
+        global indice_chaine
+                
         #ordre de parcours des noeuds        
         for n in ordre:
             if not deja_vu[n]:
                 chaines.append([])
-                parcours_decomposition_chaine(n, indice_chaine, t)
+                parcours_decomposition_chaine(n, t)
                 indice_chaine += 1
                 
         return chaines
