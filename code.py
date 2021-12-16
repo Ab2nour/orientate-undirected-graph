@@ -156,6 +156,12 @@ def parcours_graphe(g, ordre=None):
     # code
     lance_parcours()
     print("---------- DECOMPO EN CHAINES ----------")
+    # on sépare le graphe en 2 parties pour plus de commodité
+    arcs_arrieres = list(filter(lambda e: e[2] == 'arriere', arbre_parcours.edges()))
+    arcs_parcours = list(filter(lambda e: e[2] == 'arbre', arbre_parcours.edges()))
+
+    arbre_parcours_uniquement = DiGraph([exemple.vertices(), arcs_parcours])
+    arriere = DiGraph([exemple.vertices(), arcs_arrieres])
     decomposition_en_chaines()
     
     print(chaines)
