@@ -112,7 +112,7 @@ def parcours_graphe(g, ordre=None):
         
         
     
-    def decomposition_en_chaines(graphe_arriere=arriere, t=arbre_parcours_uniquement, ordre=ordre_dfi):
+    def decomposition_en_chaines(graphe_arriere=arriere, t=arbre_parcours_uniquement, ordre=ordre_dfi, DEBUG=True):
         """
         Fonction qui effectue la décomposition en chaîne,
         à partir de l'arbre de parcours.
@@ -128,8 +128,9 @@ def parcours_graphe(g, ordre=None):
             deja_vu[n] = True
             
             for voisin in graphe_arriere.neighbors_out(n): # pour chaque arc arrière
+                if DEBUG: print('\t', voisin)
                 chaines.append([n])
-                parcours_decomposition_chaine(n, t)
+                parcours_decomposition_chaine(voisin, t)
                 indice_chaine += 1
                 
         return chaines
