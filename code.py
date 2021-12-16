@@ -18,7 +18,7 @@ def parcours_graphe(g, ordre=None):
     
     ordre (optionnel) : ordre de parcours des noeuds.        
     """
-    global nb_aretes_visitees, indice_chaine
+    global nb_aretes_visitees, indice_chaine, arriere, arbre_parcours_uniquement
     
     g = DiGraph(g) # on convertit les graphes non-orientés en orientés
     noeuds = g.vertices()
@@ -94,43 +94,19 @@ def parcours_graphe(g, ordre=None):
         if DEBUG: print('debut', noeud)        
         deja_vu[noeud] = True
         
-        print(f'\nAJOUT debut fonction : {chaines}')
+        if DEBUG: print(f'\nAJOUT debut fonction : {chaines}')
         chaines[indice_chaine].append(noeud)
-        
-        voisins = t.neighbors_out(noeud)
-        fonction_tri = lambda x : ordre_dfi.index(x)
-        voisins_tries = sorted(voisins, key=fonction_tri)
-        
-        nouvelle_chaine = False # vrai si on commence une nouvelle chaîne
-            # à la prochaine itération de la boucle for
-        
-        if DEBUG: print(f'voisins_tries = {voisins_tries}')
-        
-        for voisin in voisins_tries:
+                
+        for voisin in t.neighbors_out(noeud):
             if DEBUG: print('\t', voisin)
-                
-            if nouvelle_chaine:
-                nouvelle_chaine = False
-                indice_chaine += 1
-                
-                if DEBUG: print(f'\nAJOUT nouvelle_chaine : {chaines}')
-                chaines.append([noeud])
-            
             
             if deja_vu[voisin]: # on s'arrête
-                if DEBUG: print(f'\nAJOUT if : {chaines}')
-                chaines[indice_chaine].append(voisin)
-                
-                if DEBUG: print('fin', noeud)
-                return STOP
-            
+                if DEBUG: print(f'\nAJOUT voisin : {chaines}')
+                chaines[indice_chaine].append(voisin)                
+                break            
             else:
                 nb_aretes_visitees += 1
-                resultat = parcours_decomposition_chaine(voisin)
-                
-                if resultat == STOP:         
-                    nouvelle_chaine = True                
-                
+                parcours_decomposition_chaine(voisin)
         
         if DEBUG: print('fin', noeud)
         
@@ -145,14 +121,16 @@ def parcours_graphe(g, ordre=None):
         t: arbre de parcours
         ordre: ordre des noeuds à parcourir (DFI index) 
         """
-        global indice_chaine
+        global indice_chaine, arriere, arbre_parcours_uniquement
                 
         #ordre de parcours des noeuds
-        for n in ordre: # pour chaque neoud
-            for voisin in 
-            chaines.append([])
-            parcours_decomposition_chaine(n, t)
-            indice_chaine += 1
+        for n in ordre: # pour chaque noeud
+            deja_vu[n] = True
+            
+            for voisin in graphe_arriere.neighbors_out(n): # pour chaque arc arrière
+                chaines.append([n])
+                parcours_decomposition_chaine(n, t)
+                indice_chaine += 1
                 
         return chaines
     
