@@ -18,7 +18,7 @@ def parcours_graphe(g, ordre=None):
     
     ordre (optionnel) : ordre de parcours des noeuds.        
     """
-    global nb_aretes_visitees, indice_chaine, arriere, arbre_parcours_uniquement
+    global nb_aretes_visitees, arriere, arbre_parcours_uniquement
     
     g = DiGraph(g) # on convertit les graphes non-orientés en orientés
     noeuds = g.vertices()
@@ -30,7 +30,6 @@ def parcours_graphe(g, ordre=None):
     nb_aretes_visitees = 0 # pour la décomposition en chaînes
     
     chaines = []
-    indice_chaine = 0 # sert à indicer la liste 'chaines'
         
     arbre_parcours = DiGraph() # DFS-tree T (contient *aussi* les arc arrières !)
     arbre_parcours.add_vertices(noeuds) # on met tous les noeuds de G dans T
@@ -88,16 +87,14 @@ def parcours_graphe(g, ordre=None):
         Parcours individuel de chaque noeud,
         pour la décomposition en chaînes.
         Ici, on s'arrête dès qu'on rencontre un noeud déjà visité.
-        
-        ic: indice de la chaîne dans laquelle on rajoute les noeuds
         """  
-        global nb_aretes_visitees, indice_chaine
+        global nb_aretes_visitees
         
         if DEBUG: print('debut', noeud)        
         deja_vu[noeud] = True
         
         if DEBUG: print(f'\nAJOUT debut fonction : {chaines}')
-        chaines[indice_chaine].append(noeud)
+        chaines[-1].append(noeud)
                 
         for voisin in t.neighbors_out(noeud):
             if DEBUG: print('\t', voisin)
@@ -105,7 +102,7 @@ def parcours_graphe(g, ordre=None):
             graphe_ponts.delete_edge((noeud, voisin))
             if deja_vu[voisin]: # on s'arrête
                 if DEBUG: print(f'\nAJOUT voisin : {chaines}')
-                chaines[indice_chaine].append(voisin)                
+                chaines[-1].append(voisin)                
                 break            
             else:
                 nb_aretes_visitees += 1
@@ -124,7 +121,7 @@ def parcours_graphe(g, ordre=None):
         t: arbre de parcours
         ordre: ordre des noeuds à parcourir (DFI index) 
         """
-        global indice_chaine, arriere, arbre_parcours_uniquement
+        global arriere, arbre_parcours_uniquement
                 
         #ordre de parcours des noeuds
         for noeud in ordre: # pour chaque noeud
@@ -134,8 +131,7 @@ def parcours_graphe(g, ordre=None):
                 if DEBUG: print('\t', voisin)
                 chaines.append([noeud])
                 graphe_ponts.delete_edge((noeud, voisin))
-                parcours_decomposition_chaine(voisin, t)
-                indice_chaine += 1
+                parcours_decomposition_chaine(voisin, t)                
     
     
     def nombre_cycles(decomp_chaines):
