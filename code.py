@@ -35,6 +35,9 @@ def parcours_graphe(g, ordre=None):
     arbre_parcours.add_vertices(noeuds) # on met tous les noeuds de G dans T
     
     graphe_ponts = Graph(g.edges()) # liste des ponts
+    
+    deux_arete_connexe = False # 2-arête-connexité du graphe
+    deux_sommet_connexe = False # 2(-sommet)-connexité du graphe
         
     
     def parcours(noeud, DEBUG=False):
