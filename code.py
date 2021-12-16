@@ -36,15 +36,15 @@ def parcours_graphe(g, ordre=None):
     arbre_parcours.add_vertices(noeuds) # on met tous les noeuds de G dans T
     
     
-    def parcours(noeud):
+    def parcours(noeud, DEBUG=False):
         """ Parcours individuel de chaque noeud. """  
         
-        print('debut', noeud)        
+        if DEBUG: print('debut', noeud)        
         couleur[noeud] = GRIS
         ordre_dfi.append(noeud)
         
         for voisin in g.neighbors_out(noeud):
-            print('\t', voisin)
+            if DEBUG: print('\t', voisin)
             
             if couleur[voisin] == BLANC: # arc avant
                 arbre_parcours.add_edge([voisin, noeud], label='arbre')                
@@ -55,7 +55,7 @@ def parcours_graphe(g, ordre=None):
                     arbre_parcours.add_edge([voisin, noeud], label='arriere')  
         
               
-        print('fin', noeud)
+        if DEBUG: print('fin', noeud)
         couleur[noeud] = NOIR
         
     
@@ -81,7 +81,7 @@ def parcours_graphe(g, ordre=None):
                     parcours(n)
     
     
-    def parcours_decomposition_chaine(noeud, t=arbre_parcours):
+    def parcours_decomposition_chaine(noeud, t=arbre_parcours, DEBUG=True):
         """ 
         Parcours individuel de chaque noeud,
         pour la décomposition en chaînes.
@@ -91,7 +91,7 @@ def parcours_graphe(g, ordre=None):
         """  
         global nb_aretes_visitees, indice_chaine
         
-        print('debut', noeud)        
+        if DEBUG: print('debut', noeud)        
         deja_vu[noeud] = True
         chaines[indice_chaine].append(noeud)
         
@@ -99,21 +99,23 @@ def parcours_graphe(g, ordre=None):
         fonction_tri = lambda x : ordre_dfi.index(x)
         voisins_tries = sorted(voisins, key=fonction_tri)
         
-        print(f'voisins_tries = {voisins_tries}')
+        if DEBUG: print(f'voisins_tries = {voisins_tries}')
         
         for voisin in voisins_tries:
-            print('\t', voisin)
+            if DEBUG: print('\t', voisin)
             
             if deja_vu[voisin]: # on s'arrête
                 chaines[indice_chaine].append(voisin)
-                indice_chaine += 1
-                chaines.append([])
-                print('fin', noeud)
+                if DEBUG: print('fin', noeud)
                 return STOP
             
             else:
                 nb_aretes_visitees += 1
-                parcours_decomposition_chaine(voisin)
+                resultat = parcours_decomposition_chaine(voisin)
+                
+                if resultat == STOP:                    
+                    indice_chaine += 1
+                    chaines.append([noeud])
               
         
         
