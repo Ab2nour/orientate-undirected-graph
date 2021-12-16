@@ -93,19 +93,34 @@ def parcours_graphe(g, ordre=None):
         
         if DEBUG: print('debut', noeud)        
         deja_vu[noeud] = True
+        
+        print(f'\nAJOUT debut fonction : {chaines}')
         chaines[indice_chaine].append(noeud)
         
         voisins = t.neighbors_out(noeud)
         fonction_tri = lambda x : ordre_dfi.index(x)
         voisins_tries = sorted(voisins, key=fonction_tri)
         
+        nouvelle_chaine = False # vrai si on commence une nouvelle chaîne
+            # à la prochaine itération de la boucle for
+        
         if DEBUG: print(f'voisins_tries = {voisins_tries}')
         
         for voisin in voisins_tries:
             if DEBUG: print('\t', voisin)
+                
+            if nouvelle_chaine:
+                nouvelle_chaine = False
+                indice_chaine += 1
+                
+                if DEBUG: print(f'\nAJOUT nouvelle_chaine : {chaines}')
+                chaines.append([noeud])
+            
             
             if deja_vu[voisin]: # on s'arrête
+                if DEBUG: print(f'\nAJOUT if : {chaines}')
                 chaines[indice_chaine].append(voisin)
+                
                 if DEBUG: print('fin', noeud)
                 return STOP
             
@@ -113,10 +128,11 @@ def parcours_graphe(g, ordre=None):
                 nb_aretes_visitees += 1
                 resultat = parcours_decomposition_chaine(voisin)
                 
-                if resultat == STOP:                    
-                    indice_chaine += 1
-                    chaines.append([noeud])
-              
+                if resultat == STOP:         
+                    nouvelle_chaine = True                
+                
+        
+        if DEBUG: print('fin', noeud)
         
         
     
