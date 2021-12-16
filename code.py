@@ -192,4 +192,14 @@ plot_couleur = lambda arbre : arbre.plot(edge_colors=arbre._color_by_label(optio
 
 ordre = [4, 3, 2, 1, 9, 8, 7, 6, 5, 0]
 
+# graphes séparés
+arcs_arrieres = list(filter(lambda e: e[2] == 'arriere', a.edges()))
+arcs_parcours = list(filter(lambda e: e[2] == 'arbre', a.edges()))
+
+arbre_parcours_uniquement = DiGraph([exemple.vertices(), arcs_parcours])
+arriere = DiGraph([exemple.vertices(), arcs_arrieres])
+
+plot_couleur(arbre_parcours_uniquement)
+plot_couleur(arriere)
+
 
