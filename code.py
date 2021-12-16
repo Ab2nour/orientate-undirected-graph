@@ -35,6 +35,8 @@ def parcours_graphe(g, ordre=None):
     arbre_parcours = DiGraph() # DFS-tree T (contient *aussi* les arc arrières !)
     arbre_parcours.add_vertices(noeuds) # on met tous les noeuds de G dans T
     
+    graphe_ponts = Graph(g.edges()) # liste des ponts
+        
     
     def parcours(noeud, DEBUG=False):
         """ Parcours individuel de chaque noeud. """  
@@ -100,6 +102,7 @@ def parcours_graphe(g, ordre=None):
         for voisin in t.neighbors_out(noeud):
             if DEBUG: print('\t', voisin)
             
+            graphe_ponts.delete_edge((noeud, voisin))
             if deja_vu[voisin]: # on s'arrête
                 if DEBUG: print(f'\nAJOUT voisin : {chaines}')
                 chaines[indice_chaine].append(voisin)                
@@ -124,16 +127,40 @@ def parcours_graphe(g, ordre=None):
         global indice_chaine, arriere, arbre_parcours_uniquement
                 
         #ordre de parcours des noeuds
-        for n in ordre: # pour chaque noeud
-            deja_vu[n] = True
+        for noeud in ordre: # pour chaque noeud
+            deja_vu[noeud] = True
             
-            for voisin in graphe_arriere.neighbors_out(n): # pour chaque arc arrière
+            for voisin in graphe_arriere.neighbors_out(noeud): # pour chaque arc arrière
                 if DEBUG: print('\t', voisin)
-                chaines.append([n])
+                chaines.append([noeud])
+                graphe_ponts.delete_edge((noeud, voisin))
                 parcours_decomposition_chaine(voisin, t)
                 indice_chaine += 1
-                
-        return chaines
+    
+    
+    def nombre_cycles(decomp_chaines):
+        """
+        Étant donné une décomposition en chaînes,
+        renvoie le nombre de cycles qu'elle contient.
+        
+        Chaque chaîne est de la forme [v_1, v_2, ..., v_n].
+        
+        
+        Une chaîne est un cycle si elle est de la forme :
+        [v1, v2, ..., v_1]
+        
+        c'est-à-dire : v_n = v_1.
+        
+        decomp_chaines: une décomposition en chaînes
+        """
+        
+        nb_cycles = 0
+        
+        for chaine in decomp_chaines:
+            if chaine[0] == chaine[-1]:
+                nb_cycles += 1
+        
+        return nb_cycles
     
     
     # code
@@ -145,14 +172,18 @@ def parcours_graphe(g, ordre=None):
 
     arbre_parcours_uniquement = DiGraph([exemple.vertices(), arcs_parcours])
     arriere = DiGraph([exemple.vertices(), arcs_arrieres])
+    
+       
     decomposition_en_chaines()
     
-    print(chaines)
+    print(f'chaines : {chaines}')
+    
+    print(f'nb de cycles : {nombre_cycles(chaines)}')
     
     print(est_connexe())
     print(f'ordre DFI {ordre_dfi}')
     
-    return arbre_parcours
+    return arbre_parcours, graphe_ponts
 
 
 g = Graph()
