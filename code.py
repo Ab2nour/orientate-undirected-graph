@@ -136,19 +136,23 @@ def parcours_graphe(g, ordre=None):
         
         
     
-    def decomposition_en_chaines(t=arbre_parcours, ordre=ordre_dfi):
+    def decomposition_en_chaines(graphe_arriere=arriere, t=arbre_parcours_uniquement, ordre=ordre_dfi):
         """
         Fonction qui effectue la décomposition en chaîne,
         à partir de l'arbre de parcours.
+        
+        graphe_arriere: graphe des arc arrières
+        t: arbre de parcours
+        ordre: ordre des noeuds à parcourir (DFI index) 
         """
         global indice_chaine
                 
-        #ordre de parcours des noeuds        
-        for n in ordre:
-            if not deja_vu[n]:
-                chaines.append([])
-                parcours_decomposition_chaine(n, t)
-                indice_chaine += 1
+        #ordre de parcours des noeuds
+        for n in ordre: # pour chaque neoud
+            for voisin in 
+            chaines.append([])
+            parcours_decomposition_chaine(n, t)
+            indice_chaine += 1
                 
         return chaines
     
