@@ -172,11 +172,11 @@ On implémente la décomposition en chaînes$^\text{\cite{schmidt}}$.
 
 
 \section{Exercice 1}
-\textcolor{exogris}{
+\textit{\textcolor{exogris}{
 Dans une premier temps il est demandé d’implémenter les algorithmes de calcul de 2-connexité dû à Schmidt$^\text{\cite{schmidt}}$.
 \\(1) Calculer les composantes 2-connexes d’un graphe.
 \\(2) Calculer les composantes 2-arêtes-connexes d’un graphe.
-}
+}}
 \\On commence par effectuer la décomposition en chaînes.
 \\Pour obtenir les composantes 2-connexes :
 \\On prend le graphe original, 
@@ -189,9 +189,9 @@ Dans une premier temps il est demandé d’implémenter les algorithmes de calcu
 
 
 \section{Exercice 2}
-\textcolor{exogris}{
+\textit{\textcolor{exogris}{
 Trouvez un orientation en un graphe fortement connexe$^\text{\cite{schmidt}}$ ou trouvez une arête déconnectante.
-}
+}}
 \\On effectue un DFS pour orienter toutes les arêtes, tel que décrit par Schmidt\textit{Figure 1b}$^\text{\cite{schmidt}}$.
 \\On oriente les arcs de parenté du fils vers le père, et les arcs arrières du père vers le fils.
 \\D'après le théorème de Robbins$^\text{\cite{robbins}}$, le graphe orienté obtenu sera fortement connexe si et seulement si celui-ci était 2-arête-connexe.
@@ -210,17 +210,17 @@ Pour plus de commodités, nous créons aussi deux graphes à part contenant chac
 
 
 \section{Exercice 3}
-\textcolor{exogris}{
+\textit{\textcolor{exogris}{
 Montrez qu’un graphe est fortement connexe$^\text{\cite{schmidt}}$ si et seulement si chaque arc est présent dans au moins un circuit de G.
-}
+}}
 
 
 
 \section{Exercice 4}
-\textcolor{exogris}{
+\textit{\textcolor{exogris}{
 Prouvez ou infirmez l’affirmation suivante :
 \\Un graphe est fortement connexe si et seulement si son graphe sous-jacent est 2-arête connexe.
-}
+}}
 Voici un exemple qui infirme la proposition.
 Soit ce graphe non-orienté :
 
