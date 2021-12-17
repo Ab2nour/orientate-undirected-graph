@@ -534,7 +534,7 @@ def parcours_graphe(g, ordre=None):
 a, graphe_ponts, comp_2ac, sommet_art, comp_2sc = parcours_graphe(exemple)
 
 
-# In[209]:
+# In[211]:
 
 
 comp_2sc
@@ -542,8 +542,16 @@ comp_2sc
 # pour colorier de la même couleur les sommets d'articulation
 # qui ont été séparés
 # on les repère par leur préfixe
-import re
-pattern = re.compile('\d+\_') # un ou plusieurs chiffres
+import random # pour les couleurs aléatoires
+import re # pour les regex
+
+# le nom du noeud suivi d'un '_' (début de la chaîne, pas besoin du reste)
+pattern = re.compile('(?P<nom_noeud>(.)+)\_')
+
+for v in comp_2sc:
+    if pattern.match(str(v)):
+        
+        
 
 vertex_colors = {'yellow': sommet_art}
 
@@ -554,6 +562,10 @@ options = {
 }
 
 comp_2sc.plot(**options)
+
+
+r, g, b = random.random(), random.random(), random.random()
+couleur = (r, g, b)
 
 
 # In[201]:
