@@ -44,7 +44,7 @@
 % -------------------- Couleurs --------------------
 \definecolor{definition}{HTML}{2f80ed}
 \definecolor{definition-bg}{HTML}{e0ecfd}
-
+\definecolor{exogris}{gray}{0.4}
 
 % -------------------- Styles --------------------
 \mdfdefinestyle{mystyle}{%
@@ -136,6 +136,29 @@ On utilisera pour ceci \textbf{SageMath} (bibliothèque de fonctions pour Python
 \\ Date à laquelle le DFS a \textbf{débuté} sur un noeud.
 \end{definition}
 
+\section{Résumé de notre approche}
+On implémente la décomposition en chaînes$^\text{\cite{schmidt}}$.
+\\Celle-ci nous permet d'obtenir tous les ponts, ainsi que tous les sommets d'articulation du graphe.
+\\On en déduit ensuite si le graphe est 2-connexe, 2-arête-connexe, ou aucun des deux, grâce à l'Algorithme 1 de Schmidt$^\text{\cite{schmidt}}$.
+%
+
+\section{Exercice 1}
+\textcolor{exogris}{
+Dans une premier temps il est demandé d’implémenter les algorithmes de calcul de 2-connexité dû à Schmidt$^\text{\cite{schmidt}}$.
+\\(1) Calculer les composantes 2-connexes d’un graphe.
+\\(2) Calculer les composantes 2-arêtes-connexes d’un graphe.
+}
+\\tt
+
+\section{todo}
+
+\\\\Pour obtenir les composantes 2-arêtes-connexes :
+\\On prend le graphe original, on supprime ses ponts.
+\\Ensuite, on enlève les noeuds restants de degré 0.
+%
+\\\\Pour obtenir les composantes 2-connexes :
+\\On prend le graphe original, 
+\\Ensuite, on enlève les noeuds restants de degré 0.
 \section{Exemples de graphes testés}
 
 \section{Références}
