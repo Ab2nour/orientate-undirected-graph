@@ -7,9 +7,12 @@ BLANC = 0
 GRIS = 1
 NOIR = 2
 
+options_couleurs = { # pour l'AFFICHAGE du graphe
+    'arbre': '#333', # couleur des arcs de l'arbre de parcours 
+    'arriere': '#a0a0a0' # couleur des arcs arrières
+}
 
-# pour décomposition en chaînes :
-STOP = 'STOP'
+plot_couleur = lambda arbre : arbre.plot(edge_colors=arbre._color_by_label(options_couleurs))
 
 
 def parcours_graphe(g, ordre=None):
@@ -18,6 +21,8 @@ def parcours_graphe(g, ordre=None):
     
     
     -----
+    g: graphe à parcourir 
+    
     ordre (optionnel) : ordre de parcours des noeuds.        
     """
     global arriere, arbre_parcours_uniquement, deux_arete_connexe, deux_sommet_connexe
@@ -42,7 +47,11 @@ def parcours_graphe(g, ordre=None):
         
     
     def parcours(noeud):
-        """ Parcours individuel de chaque noeud. """  
+        """ Parcours individuel de chaque noeud.
+        
+        
+        -----
+        noeud: noeud à parcourir"""  
           
         couleur[noeud] = GRIS
         ordre_dfi.append(noeud)
@@ -340,6 +349,81 @@ def parcours_graphe(g, ordre=None):
         else:
             deux_arete_connexe = True
             deux_sommet_connexe = True
+            
+       
+    # --------------- code ---------------
+    lance_parcours()
+        
+    # on sépare le graphe en 2 parties pour plus de commodité
+    arcs_arrieres = list(filter(lambda e: e[2] == 'arriere', arbre_parcours.edges()))
+    arcs_parcours = list(filter(lambda e: e[2] == 'arbre', arbre_parcours.edges()))
+
+    arbre_parcours_uniquement = DiGraph([g.vertices(), arcs_parcours])
+    arriere = DiGraph([g.vertices(), arcs_arrieres])
+    
+       
+    # décomposition en chaînes
+    decomposition_en_chaines(graphe_arriere=arriere, t=arbre_parcours_uniquement) 
+    
+    # test de la 2-connexité et 2-arête-connexité via le critère de Schmidt
+    deux_connexite()
+    
+    
+    # calcul des composantes 2-arêtes-connexes
+    ponts = graphe_ponts.edges()
+    composantes_2_arete_connexe = calcule_comp_2_arete_connexe(ponts)
+                
+    # calcul des composantes 2-sommets-connexes
+    sommets_articulation = trouve_sommets_articulation(ponts)    
+    comp_2_sommet_connexe = calcule_comp_2_sommet_connexe(ponts)
+    
+    
+    # toutes les informations renvoyées par la fonction sur le graphe
+    informations = {
+        'arbre_parcours': arbre_parcours, # Graphe contenant : arbre de parcours + arcs arrières
+        
+        'graphe_ponts': graphe_ponts, # Graphe content les ponts   
+        'ponts': ponts, # Liste des ponts
+        'composantes_2_arete_connexe': composantes_2_arete_connexe,
+        
+        'sommets_articulation': sommets_articulation, # Liste des sommets d'aritculation
+        'comp_2_sommet_connexe': comp_2_sommet_connexe,
+        
+        'deux_arete_connexe': deux_arete_connexe, # Booléen : le graphe est-il 2-arête-connexe ?
+        'deux_sommet_connexe': deux_arete_connexe, # Booléen : le graphe est-il 2-sommet-connexe ?
+        
+        'connexe': est_connexe(), # Booléen : le graphe est-il connexe ?
+        
+        'chaines': chaines,
+    }
+        
+    return informations
+
+
+def affiche_infos(g):
+    """
+    Affiche des informations relatives aux propriétés de g.
+    
+    
+    -----
+    g: un graphe SageMath
+    """
+    
+    informations = parcours_graphe(g)
+    
+    print(f"sommets d\'articulation : {informations['sommets_articulation']}", end='\n\n') 
+    print(f"ponts : {informations['ponts']}", end='\n\n') 
+    print(f"chaines : {informations['chaines']}")        
+    
+    if informations['connexe']:
+        print('Le graphe est connexe')
+        
+    if informations['deux_arete_connexe']:
+        print('Le graphe est 2-arête-connexe')
+    if informations['deux_sommet_connexe']:
+        print('Le graphe est 2-sommet-connexe')
+    
+    return informations
             
     
     
