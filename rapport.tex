@@ -56,6 +56,33 @@
 
 \definecolor{exogris}{gray}{0.4}
 
+
+
+% -------------------- Code --------------------
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{code-style}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
 % -------------------- Styles --------------------
 \mdfdefinestyle{definition-style}{%
   innertopmargin=10px,
@@ -247,6 +274,13 @@ Celui-ci est bien 2-arête-connexe, pourtant le graphe original n'était pas for
 \subsection{Comment utiliser le code}
 Il faut évidemment disposer de SageMath pour exécuter le code.
 Par exemple, en l'installant sur le site officiel, et en l'exécutant dans un NoteBook tel que Jupyter.
+
+\begin{lstlisting}[style=code-style]
+k4 = graphs.CompleteGraph(4)
+k4, pont_k4, c2ac, sommet_art, c2sc = parcours_graphe(k4)
+print('hello')
+\end{lstlisting}
+
 \subsection{Graphes testés}
 todo
 
