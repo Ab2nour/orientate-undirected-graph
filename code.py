@@ -16,6 +16,8 @@ def parcours_graphe(g, ordre=None):
     """
     Cette fonction permet de parcourir un graphe.
     
+    
+    -----
     ordre (optionnel) : ordre de parcours des noeuds.        
     """
     global nb_aretes_visitees, arriere, arbre_parcours_uniquement, deux_arete_connexe, deux_sommet_connexe
@@ -120,8 +122,12 @@ def parcours_graphe(g, ordre=None):
         Fonction qui effectue la décomposition en chaîne,
         à partir de l'arbre de parcours.
         
+        
+        -----
         graphe_arriere: graphe des arc arrières
+        
         t: arbre de parcours
+        
         ordre: ordre des noeuds à parcourir (DFI index) 
         """
                 
@@ -149,6 +155,8 @@ def parcours_graphe(g, ordre=None):
         
         c'est-à-dire : v_n = v_1.
         
+        
+        -----
         decomp_chaines: une décomposition en chaînes
         """
         
@@ -161,7 +169,7 @@ def parcours_graphe(g, ordre=None):
         return nb_cycles
     
     
-    def trouve_sommets_articulation():
+    def trouve_sommets_articulation(ponts):
         """
         Cette fonction renvoie tous les sommets d'articulation
         du graphe.
@@ -177,7 +185,13 @@ def parcours_graphe(g, ordre=None):
         On récupère donc tous les noeuds appartenant à un pont,
         puis tous les premiers sommets de chaque cycle,
         à partir du 2ème cycle de la décomposition en chaînes.
+        
+        
+        -----
+        ponts: liste des ponts du graphe
         """
+        
+        
     
     
     def deux_connexite():
@@ -211,6 +225,8 @@ def parcours_graphe(g, ordre=None):
     
        
     decomposition_en_chaines(graphe_arriere=arriere, t=arbre_parcours_uniquement)
+    
+    ponts = graphe_ponts.edges()
     
     print(f'chaines : {chaines}')
     
