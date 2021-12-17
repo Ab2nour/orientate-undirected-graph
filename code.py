@@ -20,7 +20,7 @@ def parcours_graphe(g, ordre=None):
     -----
     ordre (optionnel) : ordre de parcours des noeuds.        
     """
-    global nb_aretes_visitees, arriere, arbre_parcours_uniquement, deux_arete_connexe, deux_sommet_connexe
+    global arriere, arbre_parcours_uniquement, deux_arete_connexe, deux_sommet_connexe
     
     g = DiGraph(g) # on convertit les graphes non-orientés en orientés
     noeuds = g.vertices()
@@ -29,9 +29,8 @@ def parcours_graphe(g, ordre=None):
     deja_vu = {n: False for n in noeuds} # pour la décomposition en chaînes
     
     ordre_dfi = [] # DFI-order
-    nb_aretes_visitees = 0 # pour la décomposition en chaînes
     
-    chaines = []
+    chaines = [] # liste des chaines (cf Schmidt)
         
     arbre_parcours = DiGraph() # DFS-tree T (contient *aussi* les arc arrières !)
     arbre_parcours.add_vertices(noeuds) # on met tous les noeuds de G dans T
@@ -42,15 +41,13 @@ def parcours_graphe(g, ordre=None):
     deux_sommet_connexe = False # 2(-sommet)-connexité du graphe
         
     
-    def parcours(noeud, DEBUG=False):
+    def parcours(noeud):
         """ Parcours individuel de chaque noeud. """  
-        
-        if DEBUG: print('debut', noeud)        
+          
         couleur[noeud] = GRIS
         ordre_dfi.append(noeud)
         
         for voisin in g.neighbors_out(noeud):
-            if DEBUG: print('\t', voisin)
             
             if couleur[voisin] == BLANC: # arc avant
                 arbre_parcours.add_edge([voisin, noeud], label='arbre')                
@@ -59,9 +56,7 @@ def parcours_graphe(g, ordre=None):
             elif couleur[voisin] == GRIS: # arc arrière
                 if voisin not in arbre_parcours.neighbors_out(noeud):
                     arbre_parcours.add_edge([voisin, noeud], label='arriere')  
-        
-              
-        if DEBUG: print('fin', noeud)
+                      
         couleur[noeud] = NOIR
         
     
@@ -69,7 +64,8 @@ def parcours_graphe(g, ordre=None):
         """ 
         Renvoie True si le graphe est connexe, False sinon.
         On vérifie qu'il ne reste aucun sommet blanc.
-        """                
+        """    
+        
         return not(BLANC in couleur.values())
     
     
@@ -77,6 +73,7 @@ def parcours_graphe(g, ordre=None):
         """
         Fonction qui lance le parcours en profondeur.
         """    
+        
         if ordre: # si on a un ordre de parcours des noeuds        
             for n in ordre:
                 if couleur[n] == BLANC:
@@ -87,37 +84,32 @@ def parcours_graphe(g, ordre=None):
                     parcours(n)
     
     
-    def parcours_decomposition_chaine(noeud, t=arbre_parcours, DEBUG=True):
+    def parcours_decomposition_chaine(noeud, t=arbre_parcours):
         """ 
         Parcours individuel de chaque noeud,
         pour la décomposition en chaînes.
         Ici, on s'arrête dès qu'on rencontre un noeud déjà visité.
-        """  
-        global nb_aretes_visitees
         
-        if DEBUG: print('debut', noeud)        
+        
+        -----
+        noeud: noeud à parcourir
+        """ 
+        
         deja_vu[noeud] = True
         
-        if DEBUG: print(f'\nAJOUT debut fonction : {chaines}')
         chaines[-1].append(noeud)
                 
         for voisin in t.neighbors_out(noeud):
-            if DEBUG: print('\t', voisin)
             
             graphe_ponts.delete_edge((noeud, voisin))
             if deja_vu[voisin]: # on s'arrête
-                if DEBUG: print(f'\nAJOUT voisin : {chaines}')
                 chaines[-1].append(voisin)                
                 break            
             else:
-                nb_aretes_visitees += 1
                 parcours_decomposition_chaine(voisin)
-        
-        if DEBUG: print('fin', noeud)
-        
-        
+                
     
-    def decomposition_en_chaines(graphe_arriere, t, ordre=ordre_dfi, DEBUG=True):
+    def decomposition_en_chaines(graphe_arriere, t, ordre=ordre_dfi):
         """
         Fonction qui effectue la décomposition en chaîne,
         à partir de l'arbre de parcours.
@@ -136,7 +128,6 @@ def parcours_graphe(g, ordre=None):
             deja_vu[noeud] = True
             
             for voisin in graphe_arriere.neighbors_out(noeud): # pour chaque arc arrière
-                if DEBUG: print('\t', voisin)
                 chaines.append([noeud])
                 graphe_ponts.delete_edge((noeud, voisin))
                 parcours_decomposition_chaine(voisin, t)                
@@ -269,10 +260,7 @@ def parcours_graphe(g, ordre=None):
                 
         -----
         ponts: liste des ponts du graphe
-        """        
-        
-        # Pour éviter de traiter plusieurs fois les sommets d'articulation:
-        deja_vu = {i: False for i in a}
+        """
         
         # On copie le graphe
         composantes_2_sommet_connexe = Graph(g)
@@ -357,7 +345,7 @@ def parcours_graphe(g, ordre=None):
     
     # code
     lance_parcours()
-    print("---------- DECOMPO EN CHAINES ----------")
+        
     # on sépare le graphe en 2 parties pour plus de commodité
     arcs_arrieres = list(filter(lambda e: e[2] == 'arriere', arbre_parcours.edges()))
     arcs_parcours = list(filter(lambda e: e[2] == 'arbre', arbre_parcours.edges()))
@@ -366,8 +354,8 @@ def parcours_graphe(g, ordre=None):
     arriere = DiGraph([g.vertices(), arcs_arrieres])
     
        
-    decomposition_en_chaines(graphe_arriere=arriere, t=arbre_parcours_uniquement)
-    
+    # décomposition en chaînes
+    decomposition_en_chaines(graphe_arriere=arriere, t=arbre_parcours_uniquement)    
     ponts = graphe_ponts.edges()
     
     print(f'chaines : {chaines}')
@@ -386,8 +374,8 @@ def parcours_graphe(g, ordre=None):
     sommets_art = trouve_sommets_articulation(ponts)
     
     comp_2_sommet_connexe = calcule_comp_2_sommet_connexe(ponts)
-    
-    return arbre_parcours, graphe_ponts, composantes_2_arete_connexe, sommet_art, comp_2_sommet_connexe
+        
+    return arbre_parcours, graphe_ponts, composantes_2_arete_connexe, sommets_art, comp_2_sommet_connexe
 g = Graph()
 g.add_edges([[0, 1], [1, 2]])
 
