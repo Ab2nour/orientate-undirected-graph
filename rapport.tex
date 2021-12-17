@@ -167,7 +167,11 @@ Trouvez un orientation en un graphe fortement connexe$^\text{\cite{schmidt}}$ ou
 \\On effectue la décomposition en chaînes telle que décrite par Schmidt.
 \\Celle-ci va orienter toutes les arêtes (cf \textit{Figure 1b}$^\text{\cite{schmidt}}$).
 \\D'après le théorème de Robbins$^\text{\cite{robbins}}$, le graphe orienté obtenu sera fortement connexe si et seulement si celui-ci était 2-arête-connexe.
-\\\\Au sein de notre fonction \codeword{parcours_graphe}
+\\\\Au sein de notre fonction \codeword{parcours_graphe()}, nous avons une sous-fonction \codeword{parcours()} qui est une fonction récursive de DFS.
+\\Si jamais le graphe n'est pas connexe, nous faisons appel à la fonction \codeword{lance_parcours()} qui lance un DFS sur chaque sommet non-visité.
+\\Durant la fonction \codeword{parcours()}, nous allons créer un nouveau graphe qui contiendra, en 
+\textcolor[HTML]{333333}{gris foncé}, \textbf{l'arbre de parcours en profondeur}, et en \textcolor[HTML]{a0a0a0}{gris clair}
+
 
 
 
