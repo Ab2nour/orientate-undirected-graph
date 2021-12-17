@@ -8,6 +8,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{fontawesome5}
+\usepackage{listings}
 
 \usepackage{hyperref}
 \hypersetup{
@@ -38,7 +39,6 @@
 \usepackage[framemethod=tikz]{mdframed}
 \usepackage{tikzpagenodes}
 \usetikzlibrary{calc}
-\usepackage{fontawesome5}
 
 
 % -------------------- Couleurs --------------------
@@ -153,11 +153,11 @@ Dans une premier temps il est demandé d’implémenter les algorithmes de calcu
 
 \section{Exercice 2}
 \textcolor{exogris}{
-Dans une premier temps il est demandé d’implémenter les algorithmes de calcul de 2-connexité dûs à Schmidt$^\text{\cite{schmidt}}$.
-\\(1) Calculer les composantes 2-connexes d’un graphe.
-\\(2) Calculer les composantes 2-arêtes-connexes d’un graphe.
+Trouvez un orientation en un graphe fortement connexe$^\text{\cite{schmidt}}$ ou trouvez une arête déconnectante.
 }
-\\A
+\\On effectue la décomposition en chaînes telle que décrite par Schmidt.
+\\Celle-ci va orienter toutes les arêtes (cf \textit{Figure 1b}$^\text{\cite{schmidt}}$).
+\\D'après le théorème de Robbins$^\text{\cite{Robbins}}$, 
 
 \section{todo}
 todo
