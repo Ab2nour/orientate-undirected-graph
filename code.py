@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-
 # couleurs utilisées pour les parcours
 BLANC = 0
 GRIS = 1
@@ -394,7 +390,7 @@ def parcours_graphe(g, ordre=None):
         
         'connexe': est_connexe(), # Booléen : le graphe est-il connexe ?
         
-        'chaines': chaines,
+        'chaines': chaines, # La liste des chaînes
     }
         
     return informations
@@ -424,96 +420,76 @@ def affiche_infos(g):
         print('Le graphe est 2-sommet-connexe')
     
     return informations
-            
-    
-    
-    # code
-    lance_parcours()
-        
-    # on sépare le graphe en 2 parties pour plus de commodité
-    arcs_arrieres = list(filter(lambda e: e[2] == 'arriere', arbre_parcours.edges()))
-    arcs_parcours = list(filter(lambda e: e[2] == 'arbre', arbre_parcours.edges()))
 
-    arbre_parcours_uniquement = DiGraph([g.vertices(), arcs_parcours])
-    arriere = DiGraph([g.vertices(), arcs_arrieres])
+def affiche_comp_2_sommet_connexe(g):
+    """
+    Etant donné les infos d'un graphe,
+    affiche proprement les composantes 2 sommets connexes
     
-       
-    # décomposition en chaînes
-    decomposition_en_chaines(graphe_arriere=arriere, t=arbre_parcours_uniquement)    
-    ponts = graphe_ponts.edges()
     
-    print(f'chaines : {chaines}')
+    -----
+    g: un graphe SageMath
+    """
+    # pour colorier de la même couleur les sommets d'articulation
+    # qui ont été séparés
+    # on les repère par leur préfixe
+    import random # pour les couleurs aléatoires
+    import re # pour les regex
     
-    print(f'nb de cycles : {nombre_cycles(chaines)}')
-    
-    print(est_connexe())
-    print(f'ordre DFI {ordre_dfi}')
-    
-    deux_connexite()
-        
-    composantes_2_arete_connexe = calcule_comp_2_arete_connexe(ponts)
-    
-    sommets_articulation = trouve_sommets_articulation(ponts)
-    
-    comp_2_sommet_connexe = calcule_comp_2_sommet_connexe(ponts)
-    
-    informations = {
-        'arbre_parcours': arbre_parcours, # Graphe contenant : arbre de parcours + arcs arrières
-        
-        'graphe_ponts': graphe_ponts, # Graphe content les ponts   
-        'ponts': ponts, # Liste des ponts
-        'composantes_2_arete_connexe': composantes_2_arete_connexe,
-        
-        'sommets_articulations': sommets_articulation, # Liste des sommets d'aritculation
-        'comp_2_sommet_connexe': comp_2_sommet_connexe,
-        
-        'deux_arete_connexe': arbre_parcours, # Booléen : le graphe est-il 2-arête-connexe ?
-        'deux_sommet_connexe': arbre_parcours, # Booléen : le graphe est-il 2-sommet-connexe ?
-        
-        'connexe': est_connexe(), # Booléen : le graphe est-il connexe ?
-        
-        'arbre_parcours': arbre_parcours,
-        'arbre_parcours': arbre_parcours,
-        'arbre_parcours': arbre_parcours,
-        'arbre_parcours': arbre_parcours,
-        'arbre_parcours': arbre_parcours,
+    comp_2sc = parcours_graphe(g)['comp_2_sommet_connexe']
+
+    def couleur_aleatoire():
+        """ 
+        Renvoie une couleur aléatoire. 
+        Pour ne pas avoir une couleur trop foncée, on fixe une limite.
+        """
+        LIMITE = 0.5
+        r, g, b = random.uniform(LIMITE, 1), random.uniform(LIMITE, 1), random.uniform(LIMITE, 1)
+        return (r, g, b)
+
+
+    # le nom du noeud suivi d'un '_' (début de la chaîne, pas besoin du reste)
+    pattern = re.compile('(?P<nom_noeud>(.)+)_')
+
+    # sommets d'articulation séparés
+    # exemple : {'5': ['couleur_aleatoire', '5', '5_c1', '5_p3']}
+    # on a la couleur du noeud au début
+    # et ensuite les noeuds du groupe
+
+    sommets_equivalents = dict()
+
+    # la couleur de chaque sommet d'articulation divisé
+    couleurs_sommet = dict() 
+
+    for v in comp_2sc:
+        p = pattern.match(str(v))
+
+        if p: # si on a trouvé un préfixe correspondant à la regex
+            nom_noeud = p.group('nom_noeud')
+
+            try: # on tente de convertir en entier si possible
+                nom_noeud = int(nom_noeud) # '5' -> 5
+            except:
+                pass
+
+            if nom_noeud in sommets_equivalents.keys():            
+                sommets_equivalents[nom_noeud].append(v)
+            else: # nouveau groupe de noeuds séparés      
+                sommets_equivalents[nom_noeud] = [couleur_aleatoire(), nom_noeud, v]
+
+    for _, tab in sommets_equivalents.items():
+        couleur = tab[0]
+        s = tab[1:]
+        couleurs_sommet[couleur] = s
+
+
+
+    options = {
+        'edge_colors': comp_2sc._color_by_label(options_couleurs),
+        'vertex_colors': couleurs_sommet,
+        'vertex_color': '#fff', # couleur par défaut
     }
-        
-    return informations
-g = Graph()
-g.add_edges([[0, 1], [1, 2]])
-
-g.add_edges([[0, 1], [0, 2], [0, 3], [1, 4], [2, 4], [4, 5], [5, 6], [5, 7], 
-    [6, 7], [4, 9], [4, 8], [8, 9], [1, 2], [2, 3]])
-
-
-parcours_graphe(g)
-
-g.add_vertex(25)
-parcours_graphe(g)
-
-a = parcours_graphe(g)
-
-options_couleurs = { # pour l'AFFICHAGE du graphe
-    'arbre': '#333', # couleur des arcs de l'arbre de parcours 
-    'arriere': '#a0a0a0' # couleur des arcs arrières
-}
-
-a.plot(edge_colors=a._color_by_label(options_couleurs))
-
-plot_couleur = lambda arbre : arbre.plot(edge_colors=arbre._color_by_label(options_couleurs))
-
-
-ordre = [4, 3, 2, 1, 9, 8, 7, 6, 5, 0]
-
-# graphes séparés
-arcs_arrieres = list(filter(lambda e: e[2] == 'arriere', a.edges()))
-arcs_parcours = list(filter(lambda e: e[2] == 'arbre', a.edges()))
-
-arbre_parcours_uniquement = DiGraph([exemple.vertices(), arcs_parcours])
-arriere = DiGraph([exemple.vertices(), arcs_arrieres])
-
-plot_couleur(arbre_parcours_uniquement)
-plot_couleur(arriere)
-
-
+    
+    
+    comp_2sc.plot(**options)    
+    comp_2sc.show(**options)
