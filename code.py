@@ -18,7 +18,7 @@ def parcours_graphe(g, ordre=None):
     
     ordre (optionnel) : ordre de parcours des noeuds.        
     """
-    global nb_aretes_visitees, arriere, arbre_parcours_uniquement
+    global nb_aretes_visitees, arriere, arbre_parcours_uniquement, deux_arete_connexe, deux_sommet_connexe
     
     g = DiGraph(g) # on convertit les graphes non-orientés en orientés
     noeuds = g.vertices()
@@ -115,7 +115,7 @@ def parcours_graphe(g, ordre=None):
         
         
     
-    def decomposition_en_chaines(graphe_arriere=arriere, t=arbre_parcours_uniquement, ordre=ordre_dfi, DEBUG=True):
+    def decomposition_en_chaines(graphe_arriere, t, ordre=ordre_dfi, DEBUG=True):
         """
         Fonction qui effectue la décomposition en chaîne,
         à partir de l'arbre de parcours.
@@ -124,7 +124,6 @@ def parcours_graphe(g, ordre=None):
         t: arbre de parcours
         ordre: ordre des noeuds à parcourir (DFI index) 
         """
-        global arriere, arbre_parcours_uniquement
                 
         #ordre de parcours des noeuds
         for noeud in ordre: # pour chaque noeud
@@ -162,6 +161,44 @@ def parcours_graphe(g, ordre=None):
         return nb_cycles
     
     
+    def trouve_sommets_articulation():
+        """
+        Cette fonction renvoie tous les sommets d'articulation
+        du graphe.
+        
+        
+        On utilise pour ceci le Lemme 5.
+        
+        Un sommet d'articulation est soit :
+        - une des deux extremités d'un pont
+        - le premier sommet d'un cycle différent de C_1
+        
+        
+        On récupère donc tous les noeuds appartenant à un pont,
+        puis tous les premiers sommets de chaque cycle,
+        à partir du 2ème cycle de la décomposition en chaînes.
+        """
+    
+    
+    def deux_connexite():
+        """
+        Met à jour la 2-arête-connexité et 2-sommet-connexité du graphe.
+        """
+        global deux_arete_connexe, deux_sommet_connexe
+        
+        nb_cycles = nombre_cycles(chaines)
+        nb_ponts = len(graphe_ponts.edges())
+        
+        if nb_ponts > 0: # il y a des ponts
+            pass # aucun des deux
+        elif nb_cycles > 1: # il y a un cycle différent de C_1
+            deux_arete_connexe = True
+        else:
+            deux_arete_connexe = True
+            deux_sommet_connexe = True
+            
+    
+    
     # code
     lance_parcours()
     print("---------- DECOMPO EN CHAINES ----------")
@@ -169,11 +206,11 @@ def parcours_graphe(g, ordre=None):
     arcs_arrieres = list(filter(lambda e: e[2] == 'arriere', arbre_parcours.edges()))
     arcs_parcours = list(filter(lambda e: e[2] == 'arbre', arbre_parcours.edges()))
 
-    arbre_parcours_uniquement = DiGraph([exemple.vertices(), arcs_parcours])
-    arriere = DiGraph([exemple.vertices(), arcs_arrieres])
+    arbre_parcours_uniquement = DiGraph([g.vertices(), arcs_parcours])
+    arriere = DiGraph([g.vertices(), arcs_arrieres])
     
        
-    decomposition_en_chaines()
+    decomposition_en_chaines(graphe_arriere=arriere, t=arbre_parcours_uniquement)
     
     print(f'chaines : {chaines}')
     
@@ -181,6 +218,10 @@ def parcours_graphe(g, ordre=None):
     
     print(est_connexe())
     print(f'ordre DFI {ordre_dfi}')
+    
+    deux_connexite()
+    if deux_arete_connexe: print('Le graphe est 2-arête-connexe')
+    if deux_sommet_connexe: print('Le graphe est 2-sommet-connexe')
     
     return arbre_parcours, graphe_ponts
 
