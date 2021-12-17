@@ -177,7 +177,14 @@ Dans une premier temps il est demandé d’implémenter les algorithmes de calcu
 \\(1) Calculer les composantes 2-connexes d’un graphe.
 \\(2) Calculer les composantes 2-arêtes-connexes d’un graphe.
 }
-\\A
+\\On commence par effectuer la décomposition en chaînes.
+\\Pour obtenir les composantes 2-connexes :
+\\On prend le graphe original, 
+\\Ensuite, on enlève les noeuds restants de degré 0.
+\\Pour obtenir les composantes 2-arêtes-connexes :
+\\On prend le graphe original, on supprime ses ponts.
+\\Ensuite, on enlève les noeuds restants de degré 0.
+%
 
 
 
@@ -185,8 +192,8 @@ Dans une premier temps il est demandé d’implémenter les algorithmes de calcu
 \textcolor{exogris}{
 Trouvez un orientation en un graphe fortement connexe$^\text{\cite{schmidt}}$ ou trouvez une arête déconnectante.
 }
-\\On effectue la décomposition en chaînes telle que décrite par Schmidt.
-\\Celle-ci va orienter toutes les arêtes (cf \textit{Figure 1b}$^\text{\cite{schmidt}}$).
+\\On effectue un DFS pour orienter toutes les arêtes, tel que décrit par Schmidt\textit{Figure 1b}$^\text{\cite{schmidt}}$.
+\\On oriente les arcs de parenté du fils vers le père, et les arcs arrières du père vers le fils.
 \\D'après le théorème de Robbins$^\text{\cite{robbins}}$, le graphe orienté obtenu sera fortement connexe si et seulement si celui-ci était 2-arête-connexe.
 \\\\Au sein de notre fonction \codeword{parcours_graphe()}, nous avons une sous-fonction \codeword{parcours()} qui est une fonction récursive de DFS.
 \\Si jamais le graphe n'est pas connexe, nous faisons appel à la fonction \codeword{lance_parcours()} qui lance un DFS sur chaque sommet non-visité.
@@ -214,18 +221,29 @@ Montrez qu’un graphe est fortement connexe$^\text{\cite{schmidt}}$ si et seule
 Prouvez ou infirmez l’affirmation suivante :
 \\Un graphe est fortement connexe si et seulement si son graphe sous-jacent est 2-arête connexe.
 }
+Voici un exemple qui infirme la proposition.
+Soit ce graphe non-orienté :
+
+\begin{figure}[H]
+    \centering
+     \scalebox{.35}{\includegraphics{exo4-g2.png}}
+    \\Un graphe orienté non fortement connexe
+\end{figure}
+
+Celui-ci n'est pas fortement connexe, car on ne peut pas accéder à 1 à partir de 3 par exemple.
+Or voici son graphe sous-jacent :
+\begin{figure}[H]
+    \centering
+     \scalebox{.35}{\includegraphics{exo4-g1.png}}
+    \\Son graphe sous-jacent
+\end{figure}
+Celui-ci est bien 2-arête-connexe, pourtant le graphe original n'était pas fortement connexe, cela conclut la preuve.
+
 
 
 
 \section{todo}
 todo
-\\\\Pour obtenir les composantes 2-arêtes-connexes :
-\\On prend le graphe original, on supprime ses ponts.
-\\Ensuite, on enlève les noeuds restants de degré 0.
-%
-\\\\Pour obtenir les composantes 2-connexes :
-\\On prend le graphe original, 
-\\Ensuite, on enlève les noeuds restants de degré 0.
 \section{Exemples de graphes testés}
 
 
