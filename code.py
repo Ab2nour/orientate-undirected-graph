@@ -169,15 +169,40 @@ def parcours_graphe(g, ordre=None):
         return nb_cycles
     
     
+    def calcule_comp_2_arete_connexe(ponts):
+        """
+        Renvoie les composantes 2-arêtes-connexes du graphe.
+        
+        
+        -----
+        ponts: liste des ponts du graphe
+        """
+        # On copie le graphe
+        composantes_2_arete_connexes = Graph(g)
+        
+        # On en supprime tous les ponts
+        for e in ponts:
+            composantes_2_arete_connexes.delete_edge(e)
+        
+        # Maintenant que les ponts sont supprimés,
+        # on enlève tout sommet de degré 0
+        for v in composantes_2_arete_connexes.vertices():
+            if composantes_2_arete_connexes.degree(v) == 0:
+                composantes_2_arete_connexes.delete_vertex(v)
+
+        return composantes_2_arete_connexes
+    
+    
+    
     def trouve_sommets_articulation(ponts):
         """
         Cette fonction renvoie tous les sommets d'articulation
         du graphe.
         
         
-        On utilise pour ceci le Lemme 5.
+        On utilise pour ceci le Lemme 5, qui dit        
+        qu'un sommet d'articulation est soit :
         
-        Un sommet d'articulation est soit :
         - une des deux extremités d'un pont
         - le premier sommet d'un cycle différent de C_1
         
@@ -190,7 +215,7 @@ def parcours_graphe(g, ordre=None):
         -----
         ponts: liste des ponts du graphe
         """
-        
+        pass#todo
         
     
     
@@ -240,8 +265,6 @@ def parcours_graphe(g, ordre=None):
     if deux_sommet_connexe: print('Le graphe est 2-sommet-connexe')
     
     return arbre_parcours, graphe_ponts
-
-
 g = Graph()
 g.add_edges([[0, 1], [1, 2]])
 
