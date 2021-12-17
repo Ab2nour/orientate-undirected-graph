@@ -206,10 +206,10 @@ Dans une premier temps il est demandé d’implémenter les algorithmes de calcu
 \\(2) Calculer les composantes 2-arêtes-connexes d’un graphe.
 }}
 \\On commence par effectuer la décomposition en chaînes.
-\\Pour obtenir les composantes 2-connexes :
+\\\textbf{Pour obtenir les composantes 2-connexes :}
 \\On prend le graphe original, 
 \\Ensuite, on enlève les noeuds restants de degré 0.
-\\Pour obtenir les composantes 2-arêtes-connexes :
+\\\\\textbf{Pour obtenir les composantes 2-arêtes-connexes :}
 \\On prend le graphe original, on supprime ses ponts.
 \\Ensuite, on enlève les noeuds restants de degré 0.
 %
@@ -231,8 +231,28 @@ Trouvez un orientation en un graphe fortement connexe$^\text{\cite{schmidt}}$ ou
 \vspace{3px}
 \\ Ce graphe est appelé \codeword{arbre_parcours} dans le code (bien qu'il contienne les arcs arrière).
 \end{danger}
+
+\begin{figure}[H]
+    \centering
+     \scalebox{.35}{\includegraphics{graphe-oriente-gris.png}}
+    \\\codeword{arbre_parcours}
+\end{figure}
+
 Pour plus de commodités, nous créons aussi deux graphes à part contenant chacun soit uniquement l'arbre de parcours, soit uniquement les arrières : appelés respectivement \codeword{arbre_parcours_uniquement} et \codeword{arriere}.
-\\\\Le graphe \codeword{arbre_parcours} est donc une orientation en graphe fortement connexe si et seulement si la variable \codeword{deux_arete_connexe} renvoyée par la fonction vaut \codeword{True}.
+
+\begin{figure}[H]
+    \centering
+     \scalebox{.35}{\includegraphics{arbre_parcours_uniquement.png}}
+    \\\codeword{arbre_parcours_uniquement}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+     \scalebox{.35}{\includegraphics{arriere.png}}
+    \\\codeword{arriere}
+\end{figure}
+
+Le graphe \codeword{arbre_parcours} est donc une orientation en graphe fortement connexe si et seulement si la variable \codeword{deux_arete_connexe} renvoyée par la fonction vaut \codeword{True}.
 \\Si \codeword{deux_arete_connexe} vaut \codeword{False}, alors il suffit de regarder la variable \codeword{ponts} renvoyée par la fonction (ou \codeword{graphe_ponts.edges()}).
 
 
