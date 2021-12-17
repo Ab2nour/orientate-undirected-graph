@@ -238,7 +238,7 @@ def parcours_graphe(g, ordre=None):
         return sommets_articulation
         
         
-    def calcule_comp_2_sommet_connexe(sommets_articulation, ponts):
+    def calcule_comp_2_sommet_connexe(ponts):
         """        
         Renvoie les composantes 2-sommet-connexes du graphe.
         
@@ -263,7 +263,6 @@ def parcours_graphe(g, ordre=None):
         
                 
         -----
-        sommets_articulation: liste des sommets d'articulation du graphe
         ponts: liste des ponts du graphe
         """        
         
@@ -271,18 +270,56 @@ def parcours_graphe(g, ordre=None):
         composantes_2_sommet_connexe = Graph(g)
         
         # les ponts
-        for (u, v, _) in ponts: # arête (u, v) et _ représente le label
-            sommets_articulation.update([u, v])
+        for i in range(len(ponts)):
+            u, v, _ = ponts[i] # arête (u, v) et _ représente le label
+            
+            composantes_2_sommet_connexe.delete_edge((u, v))
+
+            # on rajoute un indice qui correspond
+            # au numéro du pont préfixé par la lettre 'p'
+            # ceci est arbitraire et sert juste à différencier
+            # les noeuds.
+            nouveau_u = f'{str(u)}_p{i}'
+            nouveau_v = f'{str(v)}_p{i}'
+
+            composantes_2_sommet_connexe.add_vertex(nouveau_u)
+            composantes_2_sommet_connexe.add_vertex(nouveau_v)
+
+            nouvelle_arete = (nouveau_u, nouveau_v)
+
+            composantes_2_sommet_connexe.add_edge(nouvelle_arete)  
         
         # premier sommet des cycles C_2, ..., C_k
         different_premier_cycle = False
-        for chaine in chaines:
-            if chaine[0] == chaine[-1]: # si on a un cycle
+        for i in range(len(chaines)):
+            chaine = chaines[i]
+            
+            if chaine[0] == chaine[-1]: # si on a un cycle  
+                
                 if different_premier_cycle:
-                    sommets_articulation.add(chaine[0])
+                    noeud = chaine[0]
+                    voisin1 = chaine[1] # deuxième
+                    voisin2 = chaine[-2] # avant-dernier
+                    
+                    composantes_2_sommet_connexe.delete_edge((noeud, voisin1))
+                    composantes_2_sommet_connexe.delete_edge((noeud, voisin2))
+                    
+                    # on rajoute un indice qui correspond
+                    # au numéro de la chaîne
+                    # ceci est arbitraire et sert juste à différencier
+                    # les noeuds.
+                    nouveau_noeud = f'{str(noeud)}_{i}'
+                    
+                    composantes_2_sommet_connexe.add_vertex(nouveau_noeud)
+                    
+                    arete1 = (nouveau_noeud, voisin1)
+                    arete2 = (nouveau_noeud, voisin1)
+                    
+                    composantes_2_sommet_connexe.add_edges([arete1, arete2])                    
                 else:
                     different_premier_cycle = True
         
+        return composantes_2_sommet_connexe
     
     
     def deux_connexite():
@@ -334,7 +371,9 @@ def parcours_graphe(g, ordre=None):
     
     sommets_art = trouve_sommets_articulation(ponts)
     
-    return arbre_parcours, graphe_ponts, composantes_2_arete_connexe, sommets_art
+    comp_2_sommet_connexe = calcule_comp_2_sommet_connexe(ponts)
+    
+    return arbre_parcours, graphe_ponts, composantes_2_arete_connexe, comp_2_sommet_connexe
 g = Graph()
 g.add_edges([[0, 1], [1, 2]])
 
