@@ -219,14 +219,13 @@ Dans une premier temps il est demandé d’implémenter les algorithmes de calcu
 
 
 % ---------- Composantes 2-sommet-connexe  ---------- 
-$$\chi(G) = \text{nombre chromatique \textit{(nombre de couleurs minimum pour colorier le graphe)}}$$
-$$\omega(G) = \text{taille de la clique maximale}$$
-$$\chi(G) \geqslant \omega(G)$$
 \begin{algorithm}[H] \caption{Composantes 2-sommets-connexes}
 \begin{algorithmic}
 
 \\ \State \textbf{Entrée :} $ponts$, la liste des ponts, ainsi que $chaines$ la liste des chaînes, en variable globale
 \State \textbf{Sortie :} Les composantes 2-sommets-connexes
+
+\\ \State Prenons une copie du graphe du départ, dans laquelle nous allons effectuer nos modifications.
 
 \\ \ForEach {pont $(u, v)$}
     \State On supprime l'arête $(u, v)$ du graphe.
@@ -245,7 +244,7 @@ $$\chi(G) \geqslant \omega(G)$$
     \State Dans ce cas, on ne fait rien.
 \EndFor
 
-\\ \State \textbf{return} $c$
+\\ \State \textbf{return} le graphe des composantes 2-sommets-connexes
 \end{algorithmic}
 \end{algorithm}
 % ---------- END Composantes 2-sommet-connexe  ---------- 
@@ -266,7 +265,7 @@ Voir fonction \codeword{calcule_comp_2_sommet_connexe}.
 \textit{\textcolor{exogris}{
 Trouvez un orientation en un graphe fortement connexe$^\text{\cite{schmidt}}$ ou trouvez une arête déconnectante.
 }}
-\\On effectue un DFS pour orienter toutes les arêtes, tel que décrit par Schmidt\textit{Figure 1b}$^\text{\cite{schmidt}}$.
+\\On effectue un DFS pour orienter toutes les arêtes, tel que décrit dans la \textit{Figure 1b}$^\text{\cite{schmidt}}$.
 \\On oriente les arcs de parenté du fils vers le père, et les arcs arrières du père vers le fils.
 \\D'après le théorème de Robbins$^\text{\cite{robbins}}$, le graphe orienté obtenu sera fortement connexe si et seulement si celui-ci était 2-arête-connexe.
 \\\\Au sein de notre fonction \codeword{parcours_graphe()}, nous avons une sous-fonction \codeword{parcours()} qui est une fonction récursive de DFS.
@@ -288,13 +287,13 @@ Pour plus de commodités, nous créons aussi deux graphes à part contenant chac
 
 \begin{figure}[H]
     \centering
-     \scalebox{.35}{\includegraphics{arbre_parcours_uniquement.png}}
+     \scalebox{.5}{\includegraphics{arbre_parcours_uniquement.png}}
     \\\codeword{arbre_parcours_uniquement}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-     \scalebox{.35}{\includegraphics{arriere.png}}
+     \scalebox{.5}{\includegraphics{arriere.png}}
     \\\codeword{arriere}
 \end{figure}
 
@@ -307,7 +306,13 @@ Le graphe \codeword{arbre_parcours} est donc une orientation en graphe fortement
 \textit{\textcolor{exogris}{
 Montrez qu’un graphe est fortement connexe$^\text{\cite{schmidt}}$ si et seulement si chaque arc est présent dans au moins un circuit de G.
 }}
-\\todo
+\\$\implies$ : On suppose que quelque soit $e$ appartenant à E, $e$ est présent dans au moins un circuit de G. On pose $e$ = {x,y}, avec x,y appartenant à V.
+\\Puisque $e$ est un chemin du sommet x au sommet et que $e$ est présent dans au moins un circuit de G, cela veut dire que le chemin de y à x existe.
+\\Autrement dit, qq soit e un arc tel que e = (x, y) (resp. (y, x)), alors qq soit x, y appartenant à V, il existe un chemin de x à y (resp. y à x) (donc e) et il existe un chemin de y à x (resp. de x à y). Donc, par définition, cela implique que le graphe est fortement connexe.
+%
+\\\\$\impliedby$ :  Par contraposée, on suppose qu'il existe un arc e appartenant à E, tel que e n'apparaisse dans aucun des circuits de G. 
+\\Ainsi, si pose e = (x, y) (resp. (y, x)), avec x, y appartenant à V, alors cela veut dire qu'il existe un chemin de x à y (resp. de y à x) mais il n'en existe pas de y à x (resp. de x à y)
+\\Donc le graphe G n'est pas fortement connexe.
 
 
 
@@ -340,16 +345,54 @@ Celui-ci est bien 2-arête-connexe, pourtant le graphe original n'était pas for
 \subsection{Comment utiliser le code}
 Il faut évidemment disposer de SageMath pour exécuter le code.
 Par exemple, en l'installant sur le site officiel, et en l'exécutant dans un NoteBook tel que Jupyter.
+%
+\\ On commence par exécuter le code contenant toutes les fonctions ainsi que quelques variables globales.
+%
+\\ On crée un graphe, puis on utilise la fonction \codeword{affiche_infos()}
 
 \begin{lstlisting}[style=code-style]
-k4 = graphs.CompleteGraph(4)
-k4, pont_k4, c2ac, sommet_art, c2sc = parcours_graphe(k4)
-print('hello')
+graphe_exemple_schmidt = Graph()
+graphe_exemple_schmidt.add_edges([(1, 2), (1, 3), (1, 4), (2, 3), (2, 5), (3, 4), (3, 5), (5, 6), (5, 9), (5, 10), (6, 7), (6, 8), (7, 8), (9, 10)])
+
+infos = affiche_infos(graphe_exemple_schmidt)
 \end{lstlisting}
 
-\subsection{Graphes testés}
-todo
+\begin{figure}[H]
+    \centering
+     \scalebox{0.65}{\includegraphics{exemple-code1.png}}
+    \\Exemple d'utilisation 1
+\end{figure}
 
+Dans la fonction \codeword{parcours_graphe()}, à la fin, on peut voir un dictionnaire \codeword{informations}.
+On peut lui extraire les informations que l'on désire.
+%
+\\ Pour afficher un arbre de parcours avec les couleurs du rapport, on utilise \codeword{plot_couleur}.
+
+\begin{lstlisting}[style=code-style]
+plot_couleur(infos['arbre_parcours'])
+\end{lstlisting}
+\begin{figure}[H]
+    \centering
+     \scalebox{0.35}{\includegraphics{graphe-oriente-gris.png}}
+\end{figure}
+
+Affichage des composantes 2-connexes avec les sommets d'articulation séparés de la même couleur :
+\begin{lstlisting}[style=code-style]
+affiche_comp_2_sommet_connexe(graphe_exemple_schmidt)
+\end{lstlisting}
+\begin{figure}[H]
+    \centering
+     \scalebox{0.5}{\includegraphics{comp2s-couleur.png}}
+\end{figure}
+
+Affichage des composantes 2-arêtes-connexes
+\begin{lstlisting}[style=code-style]
+plot_couleur(infos['composantes_2_arete_connexe'])
+\end{lstlisting}
+\begin{figure}[H]
+    \centering
+     \scalebox{0.5}{\includegraphics{comp2a.png}}
+\end{figure}
 
 
 \section{Références}
@@ -361,10 +404,5 @@ Herbert Robbins, \textit{A theorem on graphs, with an application to a problem o
 Jens M. Schmidt, \href{https://arxiv.org/ftp/arxiv/papers/1209/1209.0700.pdf}{\underline{\textit{A Simple Test on 2-Vertex- and 2-Edge-Connectivity}}},
 \\Inf. Process. Lett. \textbf{113} (2013), no. 7, 241–244.
 \end{thebibliography}
-
-
-
-\section{Annexe}
-\subsection{Code SageMath}
 
 \end{document}
