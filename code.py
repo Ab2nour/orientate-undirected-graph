@@ -261,10 +261,18 @@ def parcours_graphe(g, ordre=None):
         On rajoute un noeud u' (si déjà pris, u_2, sinon u_3, etc).
         On rajoute deux arêts (u', v_1) et (u', v_k) dans le graphe.
         
+        SAUF : 
+        Si le sommet est de degré 2 (c'est-à-dire que ses autres
+        arêtes ont été supprimées entre temps).
+        Dans ce cas, on ne fait rien.
+        
                 
         -----
         ponts: liste des ponts du graphe
         """        
+        
+        # Pour éviter de traiter plusieurs fois les sommets d'articulation:
+        deja_vu = {i: False for i in a}
         
         # On copie le graphe
         composantes_2_sommet_connexe = Graph(g)
@@ -298,6 +306,12 @@ def parcours_graphe(g, ordre=None):
                 
                 if different_premier_cycle:
                     noeud = chaine[0]
+                    
+                    # Si le sommet est de degré 2, on n'a aucun intérêt
+                    # à le cloner. On passe la procédure.
+                    if composantes_2_sommet_connexe.degree(noeud) == 2:
+                        continue # itération suivante de la boucle for
+                    
                     voisin1 = chaine[1] # deuxième
                     voisin2 = chaine[-2] # avant-dernier
                     
@@ -305,15 +319,15 @@ def parcours_graphe(g, ordre=None):
                     composantes_2_sommet_connexe.delete_edge((noeud, voisin2))
                     
                     # on rajoute un indice qui correspond
-                    # au numéro de la chaîne
+                    # au numéro de la chaîne préfixé par la lettre 'c'
                     # ceci est arbitraire et sert juste à différencier
                     # les noeuds.
-                    nouveau_noeud = f'{str(noeud)}_{i}'
+                    nouveau_noeud = f'{str(noeud)}_c{i}'
                     
                     composantes_2_sommet_connexe.add_vertex(nouveau_noeud)
                     
                     arete1 = (nouveau_noeud, voisin1)
-                    arete2 = (nouveau_noeud, voisin1)
+                    arete2 = (nouveau_noeud, voisin2)
                     
                     composantes_2_sommet_connexe.add_edges([arete1, arete2])                    
                 else:
@@ -373,7 +387,7 @@ def parcours_graphe(g, ordre=None):
     
     comp_2_sommet_connexe = calcule_comp_2_sommet_connexe(ponts)
     
-    return arbre_parcours, graphe_ponts, composantes_2_arete_connexe, comp_2_sommet_connexe
+    return arbre_parcours, graphe_ponts, composantes_2_arete_connexe, sommet_art, comp_2_sommet_connexe
 g = Graph()
 g.add_edges([[0, 1], [1, 2]])
 
