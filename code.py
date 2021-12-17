@@ -173,24 +173,27 @@ def parcours_graphe(g, ordre=None):
         """
         Renvoie les composantes 2-arêtes-connexes du graphe.
         
+        On supprime les ponts du graphe original.
+        Puis on supprime tous les sommets de degré 0 restant après ceci.
         
         -----
         ponts: liste des ponts du graphe
         """
+        
         # On copie le graphe
-        composantes_2_arete_connexes = Graph(g)
+        composantes_2_arete_connexe = Graph(g)
         
         # On en supprime tous les ponts
         for e in ponts:
-            composantes_2_arete_connexes.delete_edge(e)
+            composantes_2_arete_connexe.delete_edge(e)
         
         # Maintenant que les ponts sont supprimés,
         # on enlève tout sommet de degré 0
-        for v in composantes_2_arete_connexes.vertices():
-            if composantes_2_arete_connexes.degree(v) == 0:
-                composantes_2_arete_connexes.delete_vertex(v)
+        for v in composantes_2_arete_connexe.vertices():
+            if composantes_2_arete_connexe.degree(v) == 0:
+                composantes_2_arete_connexe.delete_vertex(v)
 
-        return composantes_2_arete_connexes
+        return composantes_2_arete_connexe
     
     
     
@@ -235,24 +238,41 @@ def parcours_graphe(g, ordre=None):
         return sommets_articulation
         
         
-    def calcule_comp_2_sommet_connexe(sommets_articulation):
+    def calcule_comp_2_sommet_connexe(sommets_articulation, ponts):
         """        
         Renvoie les composantes 2-sommet-connexes du graphe.
         
-        
-        Pour chaque pont (u ,v) :
+                
+        * Pour chaque pont (u, v) :
         
         On supprime l'arête (u, v) du graphe.
+        On rajoute un noeud u' (si déjà pris, u_2, sinon u_3, etc)
+            et de même un noeud v'.
         On rajoute une arête (u', v') dans le graphe.
         
+                
+        * Pour chaque sommet u en début de cycle, à partir de C_2 :
         
-        Pour chaque sommet en début de cycle, à partir de C_2 :
+        Le cycle est de la forme : u, v_1, ..., v_k, u
         
+        Dans ce cas :
         
+        On supprime les arêtes (u, v_1) et (u, v_k) du graphe.        
+        On rajoute un noeud u' (si déjà pris, u_2, sinon u_3, etc).
+        On rajoute deux arêts (u', v_1) et (u', v_k) dans le graphe.
         
+                
         -----
         sommets_articulation: liste des sommets d'articulation du graphe
-        """
+        ponts: liste des ponts du graphe
+        """        
+        
+        # On copie le graphe
+        composantes_2_sommet_connexe = Graph(g)
+        
+        # les ponts
+        for (u, v, _) in ponts: # arête (u, v) et _ représente le label
+            sommets_articulation.update([u, v])
         
         # premier sommet des cycles C_2, ..., C_k
         different_premier_cycle = False
