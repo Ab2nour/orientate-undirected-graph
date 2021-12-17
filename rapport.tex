@@ -1,5 +1,6 @@
 \documentclass{article}      % Specifies the document class
 
+% -------------------- Packages --------------------
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage[noend]{algpseudocode}
@@ -24,7 +25,7 @@
 \hypersetup{hidelinks} %enlève les cadres rouges autour des hyperliens
 
 
-% ---------- hack to remove indent ----------
+% ---------- PSEUDO CODE : hack to remove indent ----------
 % https://tex.stackexchange.com/questions/354564/how-to-remove-leading-indentation-from-algorithm
 \usepackage{xpatch}
 \makeatletter
@@ -33,7 +34,30 @@
   {}{}
 \makeatother
 
+\usepackage{xcolor}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{tikzpagenodes}
+\usetikzlibrary{calc}
+\usepackage{fontawesome5}
 
+
+% -------------------- Couleurs --------------------
+\definecolor{definition}{HTML}{2f80ed}
+\definecolor{definition-bg}{HTML}{e0ecfd}
+
+
+% -------------------- Styles --------------------
+\mdfdefinestyle{mystyle}{%
+  innertopmargin=10px,
+  innerbottommargin=10px,
+  linecolor=definition,
+  backgroundcolor=definition-bg,
+  roundcorner=4px
+}
+\newmdenv[style=mystyle]{definition}
+
+
+% -------------------- Document --------------------
 \title{Théorie des Graphes\\\Large{Projet noté}}
 \author{MADANI Abdenour\\TRIOLET Hugo}
 \date{Licence 3\\2021 - 2022}
@@ -56,6 +80,19 @@ Les objectifs de ce TPs sont :
 
 On utilisera pour ceci \textbf{SageMath} (bibliothèque de fonctions pour Python).
 
+\section{Définitions}
+
+
+
+
+
+\begin{definition}
+{ \scriptsize \textcolor{definition}{\faIcon{graduation-cap} \textbf{DÉFINITION}}}
+\vspace{3px}
+\\ \underline{\textbf{Depth-First Index (DFI)$^\text{\cite{schmidt}}$}}
+\vspace{2.5px}
+\\ Date à laquelle le DFS a \textbf{débuté} sur un noeud.
+\end{definition}
 
 \section{Exemples de graphes testés}
 
