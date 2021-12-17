@@ -366,16 +366,36 @@ def parcours_graphe(g, ordre=None):
     print(f'ordre DFI {ordre_dfi}')
     
     deux_connexite()
-    if deux_arete_connexe: print('Le graphe est 2-arête-connexe')
-    if deux_sommet_connexe: print('Le graphe est 2-sommet-connexe')
         
     composantes_2_arete_connexe = calcule_comp_2_arete_connexe(ponts)
     
-    sommets_art = trouve_sommets_articulation(ponts)
+    sommets_articulation = trouve_sommets_articulation(ponts)
     
     comp_2_sommet_connexe = calcule_comp_2_sommet_connexe(ponts)
+    
+    informations = {
+        'arbre_parcours': arbre_parcours, # Graphe contenant : arbre de parcours + arcs arrières
         
-    return arbre_parcours, graphe_ponts, composantes_2_arete_connexe, sommets_art, comp_2_sommet_connexe
+        'graphe_ponts': graphe_ponts, # Graphe content les ponts   
+        'ponts': ponts, # Liste des ponts
+        'composantes_2_arete_connexe': composantes_2_arete_connexe,
+        
+        'sommets_articulations': sommets_articulation, # Liste des sommets d'aritculation
+        'comp_2_sommet_connexe': comp_2_sommet_connexe,
+        
+        'deux_arete_connexe': arbre_parcours, # Booléen : le graphe est-il 2-arête-connexe ?
+        'deux_sommet_connexe': arbre_parcours, # Booléen : le graphe est-il 2-sommet-connexe ?
+        
+        'connexe': est_connexe(), # Booléen : le graphe est-il connexe ?
+        
+        'arbre_parcours': arbre_parcours,
+        'arbre_parcours': arbre_parcours,
+        'arbre_parcours': arbre_parcours,
+        'arbre_parcours': arbre_parcours,
+        'arbre_parcours': arbre_parcours,
+    }
+        
+    return informations
 g = Graph()
 g.add_edges([[0, 1], [1, 2]])
 
