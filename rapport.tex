@@ -12,7 +12,7 @@
 
 \lstset{language=Python,keywordstyle={\bfseries \color{blue}}}
 \NewDocumentCommand{\codeword}{v}{%
-    \texttt{\textcolor{definition}{#1}}%
+    \texttt{\textcolor[HTML]{5c5c65}{#1}}%
 }
 
 
@@ -190,6 +190,7 @@ Trouvez un orientation en un graphe fortement connexe$^\text{\cite{schmidt}}$ ou
 \end{danger}
 Pour plus de commodités, nous créons aussi deux graphes à part contenant chacun soit uniquement l'arbre de parcours, soit uniquement les arrières : appelés respectivement \codeword{arbre_parcours_uniquement} et \codeword{arriere}.
 \\\\Le graphe \codeword{arbre_parcours} est donc une orientation en graphe fortement connexe si et seulement si la variable \codeword{deux_arete_connexe} renvoyée par la fonction vaut \codeword{True}.
+\\Si \codeword{deux_arete_connexe} vaut \codeword{False}, alors il suffit de regarder la variable \codeword{ponts} renvoyée par la fonction (ou \codeword{graphe_ponts.edges()}.
 
 
 
