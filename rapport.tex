@@ -50,6 +50,10 @@
 % -------------------- Couleurs --------------------
 \definecolor{definition}{HTML}{2f80ed}
 \definecolor{definition-bg}{HTML}{e0ecfd}
+
+\definecolor{danger}{HTML}{e6505f}
+\definecolor{danger-bg}{HTML}{fce5e7}
+
 \definecolor{exogris}{gray}{0.4}
 
 % -------------------- Styles --------------------
@@ -61,6 +65,15 @@
   roundcorner=4px
 }
 \newmdenv[style=mystyle]{definition}
+
+\mdfdefinestyle{mystyle}{%
+  innertopmargin=10px,
+  innerbottommargin=10px,
+  linecolor=danger,
+  backgroundcolor=danger-bg,
+  roundcorner=4px
+}
+\newmdenv[style=mystyle]{danger}
 
 
 % -------------------- Document --------------------
@@ -169,8 +182,13 @@ Trouvez un orientation en un graphe fortement connexe$^\text{\cite{schmidt}}$ ou
 \\D'après le théorème de Robbins$^\text{\cite{robbins}}$, le graphe orienté obtenu sera fortement connexe si et seulement si celui-ci était 2-arête-connexe.
 \\\\Au sein de notre fonction \codeword{parcours_graphe()}, nous avons une sous-fonction \codeword{parcours()} qui est une fonction récursive de DFS.
 \\Si jamais le graphe n'est pas connexe, nous faisons appel à la fonction \codeword{lance_parcours()} qui lance un DFS sur chaque sommet non-visité.
-\\Durant la fonction \codeword{parcours()}, nous allons créer un nouveau graphe qui contiendra, en 
-\textcolor[HTML]{333333}{gris foncé}, \textbf{l'arbre de parcours en profondeur}, et en \textcolor[HTML]{a0a0a0}{gris clair}
+\\Durant la fonction \codeword{parcours()}, nous allons créer un nouveau graphe qui contiendra, en \textcolor[HTML]{333333}{gris foncé}, \textbf{l'arbre de parcours en profondeur}, et en \textcolor[HTML]{a0a0a0}{gris clair} tous les arcs arrières.
+\begin{danger}
+{ \scriptsize \textcolor{danger}{\faIcon{exclamation-triangle} \textbf{ATTENTION}}}
+\vspace{3px}
+\\ Ce graphe est appelé \codeword{arbre_parcours} dans le code (bien qu'il contienne les arcs arrière).
+\end{danger}
+Pour plus de commodités, nous créons aussi deux graphes à part contenant chacun soit uniquement l'arbre de parcours, soit uniquement les arrières : appelés respectivement \codeword{arbre_parcours_uniquement} et \codeword{arriere}.
 
 
 
