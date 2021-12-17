@@ -215,7 +215,53 @@ def parcours_graphe(g, ordre=None):
         -----
         ponts: liste des ponts du graphe
         """
-        pass#todo
+        
+        # on utilise un ensemble pour éviter les doublons
+        sommets_articulation = set()
+        
+        # les ponts
+        for (u, v, _) in ponts: # arête (u, v) et _ représente le label
+            sommets_articulation.update([u, v])
+            
+        # premier sommet des cycles C_2, ..., C_k
+        different_premier_cycle = False
+        for chaine in chaines:
+            if chaine[0] == chaine[-1]: # si on a un cycle
+                if different_premier_cycle:
+                    sommets_articulation.add(chaine[0])
+                else:
+                    different_premier_cycle = True
+        
+        return sommets_articulation
+        
+        
+    def calcule_comp_2_sommet_connexe(sommets_articulation):
+        """        
+        Renvoie les composantes 2-sommet-connexes du graphe.
+        
+        
+        Pour chaque pont (u ,v) :
+        
+        On supprime l'arête (u, v) du graphe.
+        On rajoute une arête (u', v') dans le graphe.
+        
+        
+        Pour chaque sommet en début de cycle, à partir de C_2 :
+        
+        
+        
+        -----
+        sommets_articulation: liste des sommets d'articulation du graphe
+        """
+        
+        # premier sommet des cycles C_2, ..., C_k
+        different_premier_cycle = False
+        for chaine in chaines:
+            if chaine[0] == chaine[-1]: # si on a un cycle
+                if different_premier_cycle:
+                    sommets_articulation.add(chaine[0])
+                else:
+                    different_premier_cycle = True
         
     
     
@@ -263,8 +309,12 @@ def parcours_graphe(g, ordre=None):
     deux_connexite()
     if deux_arete_connexe: print('Le graphe est 2-arête-connexe')
     if deux_sommet_connexe: print('Le graphe est 2-sommet-connexe')
+        
+    composantes_2_arete_connexe = calcule_comp_2_arete_connexe(ponts)
     
-    return arbre_parcours, graphe_ponts
+    sommets_art = trouve_sommets_articulation(ponts)
+    
+    return arbre_parcours, graphe_ponts, composantes_2_arete_connexe, sommets_art
 g = Graph()
 g.add_edges([[0, 1], [1, 2]])
 
