@@ -46,6 +46,11 @@
 \usepackage{tikzpagenodes}
 \usetikzlibrary{calc}
 
+% add foreach
+\algnewcommand\algorithmicforeach{\textbf{for each}}
+\algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
+
+
 
 % -------------------- Couleurs --------------------
 \definecolor{definition}{HTML}{2f80ed}
@@ -207,9 +212,46 @@ Dans une premier temps il est demandé d’implémenter les algorithmes de calcu
 \\(2) Calculer les composantes 2-arêtes-connexes d’un graphe.
 }}
 \\On commence par effectuer la décomposition en chaînes.
-\\\textbf{Pour obtenir les composantes 2-connexes :}
-\\On prend le graphe original, 
-\\Ensuite, on enlève les noeuds restants de degré 0.
+\\\\Grâce aux Lemmes 4 et 5$^\text{\cite{schmidt}}$, on peut identifier les ponts et sommets d'articulation du graphe.
+\\\\\textbf{Pour obtenir les composantes 2-connexes :}
+\\On prend le graphe original, on le copie.
+\\Ensuite, on fait un traitement différent sur chaque pont, puis sur chaque sommet d'articulation en début de cycle.
+
+
+% ---------- Composantes 2-sommet-connexe  ---------- 
+$$\chi(G) = \text{nombre chromatique \textit{(nombre de couleurs minimum pour colorier le graphe)}}$$
+$$\omega(G) = \text{taille de la clique maximale}$$
+$$\chi(G) \geqslant \omega(G)$$
+\begin{algorithm}[H] \caption{Composantes 2-sommets-connexes}
+\begin{algorithmic}
+
+\\ \State \textbf{Entrée :} $ponts$, la liste des ponts, ainsi que $chaines$ la liste des chaînes, en variable globale
+\State \textbf{Sortie :} Les composantes 2-sommets-connexes
+
+\\ \ForEach {pont $(u, v)$}
+    \State On supprime l'arête $(u, v)$ du graphe.
+    \State On rajoute un noeud $u'$ (si déjà pris, $u_2$, puis $u_3$, etc) et de même un noeud $v'$.
+    \State On rajoute une arête $(u', v')$ dans le graphe.
+\EndFor
+
+\\ \ForEach {sommet $u$ en début de cycle, à partir de $C_2$}
+    \State Le cycle est de la forme : $u, v_1, ..., v_k, u$
+    \\\State On supprime les arêtes $(u, v_1)$ et $(u, v_k)$ du graphe.        
+    \State On rajoute un noeud $u'$ (si déjà pris, $u_2$, puis $u_3$, etc)
+    \State On rajoute deux arêts $(u', v_1)$ et $(u', v_k)$ dans le graphe.
+    
+    \\\State \textbf{SAUF :} 
+    \State Si le sommet est de degré 2 (c'est-à-dire que ses autres arêtes ont été supprimées entre temps).
+    \State Dans ce cas, on ne fait rien.
+\EndFor
+
+\\ \State \textbf{return} $c$
+\end{algorithmic}
+\end{algorithm}
+% ---------- END Composantes 2-sommet-connexe  ---------- 
+
+
+Voir fonction \codeword{calcule_comp_2_sommet_connexe}.
 %
 %
 \\\\\textbf{Pour obtenir les composantes 2-arêtes-connexes :}
