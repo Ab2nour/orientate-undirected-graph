@@ -195,6 +195,7 @@ On implémente la décomposition en chaînes$^\text{\cite{schmidt}}$.
 \\Celle-ci nous permet d'obtenir tous les ponts, ainsi que tous les sommets d'articulation du graphe.
 \\On en déduit ensuite si le graphe est 2-connexe, 2-arête-connexe, ou aucun des deux, grâce à l'Algorithme 1 de Schmidt$^\text{\cite{schmidt}}$.
 \\On calcule ensuite les composantes 2-connexes et 2-arêtes-connexes.
+\\\\Vis-à-vis du code, nous l'avons documenté à l'aide de la \textit{docstring} de Python, les fonctions se comprennent donc naturellement grâce à celle-ci.
 %
 
 
@@ -209,9 +210,12 @@ Dans une premier temps il est demandé d’implémenter les algorithmes de calcu
 \\\textbf{Pour obtenir les composantes 2-connexes :}
 \\On prend le graphe original, 
 \\Ensuite, on enlève les noeuds restants de degré 0.
+%
+%
 \\\\\textbf{Pour obtenir les composantes 2-arêtes-connexes :}
 \\On prend le graphe original, on supprime ses ponts.
 \\Ensuite, on enlève les noeuds restants de degré 0.
+\\Voir fonction \codeword{calcule_comp_2_arete_connexe}.
 %
 
 
