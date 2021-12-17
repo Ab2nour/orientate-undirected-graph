@@ -140,6 +140,7 @@ On utilisera pour ceci \textbf{SageMath} (bibliothèque de fonctions pour Python
 On implémente la décomposition en chaînes$^\text{\cite{schmidt}}$.
 \\Celle-ci nous permet d'obtenir tous les ponts, ainsi que tous les sommets d'articulation du graphe.
 \\On en déduit ensuite si le graphe est 2-connexe, 2-arête-connexe, ou aucun des deux, grâce à l'Algorithme 1 de Schmidt$^\text{\cite{schmidt}}$.
+\\On calcule ensuite les composantes 2-connexes et 2-arêtes-connexes.
 %
 
 \section{Exercice 1}
@@ -148,10 +149,18 @@ Dans une premier temps il est demandé d’implémenter les algorithmes de calcu
 \\(1) Calculer les composantes 2-connexes d’un graphe.
 \\(2) Calculer les composantes 2-arêtes-connexes d’un graphe.
 }
-\\tt
+\\A
+
+\section{Exercice 2}
+\textcolor{exogris}{
+Dans une premier temps il est demandé d’implémenter les algorithmes de calcul de 2-connexité dûs à Schmidt$^\text{\cite{schmidt}}$.
+\\(1) Calculer les composantes 2-connexes d’un graphe.
+\\(2) Calculer les composantes 2-arêtes-connexes d’un graphe.
+}
+\\A
 
 \section{todo}
-
+todo
 \\\\Pour obtenir les composantes 2-arêtes-connexes :
 \\On prend le graphe original, on supprime ses ponts.
 \\Ensuite, on enlève les noeuds restants de degré 0.
@@ -163,9 +172,12 @@ Dans une premier temps il est demandé d’implémenter les algorithmes de calcu
 
 \section{Références}
 \begin{thebibliography}{9}
+\bibitem{robbins}
+Herbert Robbins, \textit{A theorem on graphs, with an application to a problem on traffic control}, American Mathematical Monthly 46, 281–283.
+
 \bibitem{schmidt}
-Jens M. Schmidt
-\\\href{https://arxiv.org/ftp/arxiv/papers/1209/1209.0700.pdf}{\underline{\textit{A Simple Test on 2-Vertex- and 2-Edge-Connectivity}}}, (2013).
+Jens M. Schmidt, \href{https://arxiv.org/ftp/arxiv/papers/1209/1209.0700.pdf}{\underline{\textit{A Simple Test on 2-Vertex- and 2-Edge-Connectivity}}},
+\\Inf. Process. Lett. \textbf{113} (2013), no. 7, 241–244.
 \end{thebibliography}
 
 \end{document}
