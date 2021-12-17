@@ -154,6 +154,14 @@ On utilisera pour ceci \textbf{SageMath} (bibliothèque de fonctions pour Python
 \\ Date à laquelle le DFS a \textbf{débuté} sur un noeud.
 \end{definition}
 
+\begin{definition}
+{ \scriptsize \textcolor{definition}{\faIcon{graduation-cap} \textbf{DÉFINITION}}}
+\vspace{3px}
+\\ \underline{\textbf{Graphe sous-jacent}}
+\vspace{2.5px}
+\\ Pour un graphe orienté, le graphe sous-jacent correspond au graphe avec les mêmes noeuds, mais dont les arêtes ne sont plus orientées. (le graphe sous-jacent est donc non-orienté)
+\end{definition}
+
 \section{Résumé de notre approche}
 On implémente la décomposition en chaînes$^\text{\cite{schmidt}}$.
 \\Celle-ci nous permet d'obtenir tous les ponts, ainsi que tous les sommets d'articulation du graphe.
@@ -190,7 +198,22 @@ Trouvez un orientation en un graphe fortement connexe$^\text{\cite{schmidt}}$ ou
 \end{danger}
 Pour plus de commodités, nous créons aussi deux graphes à part contenant chacun soit uniquement l'arbre de parcours, soit uniquement les arrières : appelés respectivement \codeword{arbre_parcours_uniquement} et \codeword{arriere}.
 \\\\Le graphe \codeword{arbre_parcours} est donc une orientation en graphe fortement connexe si et seulement si la variable \codeword{deux_arete_connexe} renvoyée par la fonction vaut \codeword{True}.
-\\Si \codeword{deux_arete_connexe} vaut \codeword{False}, alors il suffit de regarder la variable \codeword{ponts} renvoyée par la fonction (ou \codeword{graphe_ponts.edges()}.
+\\Si \codeword{deux_arete_connexe} vaut \codeword{False}, alors il suffit de regarder la variable \codeword{ponts} renvoyée par la fonction (ou \codeword{graphe_ponts.edges()}).
+
+
+
+\section{Exercice 3}
+\textcolor{exogris}{
+Montrez qu’un graphe est fortement connexe$^\text{\cite{schmidt}}$ si et seulement si chaque arc est présent dans au moins un circuit de G.
+}
+
+
+
+\section{Exercice 4}
+\textcolor{exogris}{
+Prouvez ou infirmez l’affirmation suivante :
+\\Un graphe est fortement connexe si et seulement si son graphe sous-jacent est 2-arête connexe.
+}
 
 
 
