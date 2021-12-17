@@ -91,6 +91,7 @@
 
 
 \section{Introduction}
+\subsection{Objectifs}
 Les objectifs de ce TPs sont :
 \begin{itemize}
   \item Orienter un graphe non-orienté en un graphe fortement connexe,
@@ -103,7 +104,7 @@ On utilisera pour ceci \textbf{SageMath} (bibliothèque de fonctions pour Python
 
 
 
-\section{Définitions}
+\subsection{Définitions}
 \begin{definition}
 { \scriptsize \textcolor{definition}{\faIcon{graduation-cap} \textbf{DÉFINITION}}}
 \vspace{3px}
@@ -162,7 +163,7 @@ On utilisera pour ceci \textbf{SageMath} (bibliothèque de fonctions pour Python
 \\ Pour un graphe orienté, le graphe sous-jacent correspond au graphe avec les mêmes noeuds, mais dont les arêtes ne sont plus orientées. (le graphe sous-jacent est donc non-orienté)
 \end{definition}
 
-\section{Résumé de notre approche}
+\subsection{Résumé de notre approche}
 On implémente la décomposition en chaînes$^\text{\cite{schmidt}}$.
 \\Celle-ci nous permet d'obtenir tous les ponts, ainsi que tous les sommets d'articulation du graphe.
 \\On en déduit ensuite si le graphe est 2-connexe, 2-arête-connexe, ou aucun des deux, grâce à l'Algorithme 1 de Schmidt$^\text{\cite{schmidt}}$.
@@ -170,8 +171,8 @@ On implémente la décomposition en chaînes$^\text{\cite{schmidt}}$.
 %
 
 
-
-\section{Exercice 1}
+\section{Exercices}
+\subsection{Exercice 1}
 \textit{\textcolor{exogris}{
 Dans une premier temps il est demandé d’implémenter les algorithmes de calcul de 2-connexité dû à Schmidt$^\text{\cite{schmidt}}$.
 \\(1) Calculer les composantes 2-connexes d’un graphe.
@@ -188,7 +189,7 @@ Dans une premier temps il est demandé d’implémenter les algorithmes de calcu
 
 
 
-\section{Exercice 2}
+\subsection{Exercice 2}
 \textit{\textcolor{exogris}{
 Trouvez un orientation en un graphe fortement connexe$^\text{\cite{schmidt}}$ ou trouvez une arête déconnectante.
 }}
@@ -209,19 +210,20 @@ Pour plus de commodités, nous créons aussi deux graphes à part contenant chac
 
 
 
-\section{Exercice 3}
+\subsection{Exercice 3}
 \textit{\textcolor{exogris}{
 Montrez qu’un graphe est fortement connexe$^\text{\cite{schmidt}}$ si et seulement si chaque arc est présent dans au moins un circuit de G.
 }}
+\\todo
 
 
 
-\section{Exercice 4}
+\subsection{Exercice 4}
 \textit{\textcolor{exogris}{
 Prouvez ou infirmez l’affirmation suivante :
 \\Un graphe est fortement connexe si et seulement si son graphe sous-jacent est 2-arête connexe.
 }}
-Voici un exemple qui infirme la proposition.
+\\Voici un exemple qui infirme la proposition.
 Soit ce graphe non-orienté :
 
 \begin{figure}[H]
@@ -241,10 +243,10 @@ Celui-ci est bien 2-arête-connexe, pourtant le graphe original n'était pas for
 
 
 
-
-\section{todo}
+\section{Exemples d'utilisation du code}
+\subsection{Comment utiliser le code}
+\subsection{Graphes testés}
 todo
-\section{Exemples de graphes testés}
 
 
 
@@ -257,5 +259,10 @@ Herbert Robbins, \textit{A theorem on graphs, with an application to a problem o
 Jens M. Schmidt, \href{https://arxiv.org/ftp/arxiv/papers/1209/1209.0700.pdf}{\underline{\textit{A Simple Test on 2-Vertex- and 2-Edge-Connectivity}}},
 \\Inf. Process. Lett. \textbf{113} (2013), no. 7, 241–244.
 \end{thebibliography}
+
+
+
+\section{Annexe}
+\subsection{Code SageMath}
 
 \end{document}
