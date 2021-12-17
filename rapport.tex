@@ -10,6 +10,12 @@
 \usepackage{fontawesome5}
 \usepackage{listings}
 
+\lstset{language=Python,keywordstyle={\bfseries \color{blue}}}
+\NewDocumentCommand{\codeword}{v}{%
+    \texttt{\textcolor{definition}{#1}}%
+}
+
+
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,
@@ -69,6 +75,8 @@
 \tableofcontents
 \newpage
 
+
+
 \section{Introduction}
 Les objectifs de ce TPs sont :
 \begin{itemize}
@@ -80,12 +88,9 @@ Les objectifs de ce TPs sont :
 
 On utilisera pour ceci \textbf{SageMath} (bibliothèque de fonctions pour Python).
 
+
+
 \section{Définitions}
-
-
-
-
-
 \begin{definition}
 { \scriptsize \textcolor{definition}{\faIcon{graduation-cap} \textbf{DÉFINITION}}}
 \vspace{3px}
@@ -143,6 +148,8 @@ On implémente la décomposition en chaînes$^\text{\cite{schmidt}}$.
 \\On calcule ensuite les composantes 2-connexes et 2-arêtes-connexes.
 %
 
+
+
 \section{Exercice 1}
 \textcolor{exogris}{
 Dans une premier temps il est demandé d’implémenter les algorithmes de calcul de 2-connexité dû à Schmidt$^\text{\cite{schmidt}}$.
@@ -151,6 +158,8 @@ Dans une premier temps il est demandé d’implémenter les algorithmes de calcu
 }
 \\A
 
+
+
 \section{Exercice 2}
 \textcolor{exogris}{
 Trouvez un orientation en un graphe fortement connexe$^\text{\cite{schmidt}}$ ou trouvez une arête déconnectante.
@@ -158,6 +167,8 @@ Trouvez un orientation en un graphe fortement connexe$^\text{\cite{schmidt}}$ ou
 \\On effectue la décomposition en chaînes telle que décrite par Schmidt.
 \\Celle-ci va orienter toutes les arêtes (cf \textit{Figure 1b}$^\text{\cite{schmidt}}$).
 \\D'après le théorème de Robbins$^\text{\cite{robbins}}$, le graphe orienté obtenu sera fortement connexe si et seulement si celui-ci était 2-arête-connexe.
+\\\\Au sein de notre fonction \codeword{parcours_graphe}
+
 
 
 \section{todo}
@@ -170,6 +181,8 @@ todo
 \\On prend le graphe original, 
 \\Ensuite, on enlève les noeuds restants de degré 0.
 \section{Exemples de graphes testés}
+
+
 
 \section{Références}
 \begin{thebibliography}{9}
