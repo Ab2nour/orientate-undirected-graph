@@ -1,7 +1,7 @@
 from typing import Final
 
-import networkx as nx
 import matplotlib.pyplot as plt
+import networkx as nx
 
 # Our default presets
 COLORS: Final[dict[str, str]] = {
@@ -11,7 +11,9 @@ COLORS: Final[dict[str, str]] = {
 }
 
 
-def _draw_graph(graph: nx.Graph, node_color: str, node_border_color: str, edge_color: str) -> None:
+def _draw_graph(
+    graph: nx.Graph, node_color: str, node_border_color: str, edge_color: str
+) -> None:
     """Draws the graph `graph` with the color parameters specified.
 
     Example
@@ -33,4 +35,6 @@ def draw_graph(graph: nx.Graph) -> None:
     >>> example = nx.Graph([(1, 2), (1, 3), (2, 3)])
     >>> draw_graph(example)
     """
-    _draw_graph(graph, COLORS["node_color"], COLORS["node_border_color"], COLORS["edge_color"])
+    _draw_graph(
+        graph, COLORS["node_color"], COLORS["node_border_color"], COLORS["edge_color"]
+    )
