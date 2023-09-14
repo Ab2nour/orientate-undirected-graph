@@ -7,7 +7,11 @@ Projet de L3 Informatique, en Théorie des Graphes.
     "Arbre de parcours d'un DFS"
 )
 
+L'objectif principal est d'orienter un graphe non-orienté en graphe fortement connexe, lorsque ceci est possible.
+
 # Organisation
+
+Voici l'organisation des différents dossiers du projet :
 ```
 📦 racine du projet
  ┃
