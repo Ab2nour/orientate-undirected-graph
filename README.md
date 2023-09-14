@@ -18,6 +18,6 @@ Projet de L3 Informatique, en Théorie des Graphes.
  ┃    Contient le code source du projet.
  ┃ 
  ┣ 📂 subject
- ┃    Contient sujet du problème ainsi que les articles en lien avec.
+ ┃    Contient le sujet du problème ainsi que les articles en lien avec.
  ┃ 
 ```
