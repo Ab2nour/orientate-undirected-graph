@@ -14,14 +14,14 @@ L'objectif principal est d'orienter un graphe non-orienté en graphe fortement c
 Voici l'organisation des différents dossiers du projet :
 ```
 📦 racine du projet
- ┃
- ┣ 📂 report
- ┃    Contient le rapport du projet, en PDF et Latex.
- ┃ 
- ┣ 📂 src
- ┃    Contient le code source du projet.
- ┃ 
- ┣ 📂 subject
- ┃    Contient le sujet du problème ainsi que les articles en lien avec.
- ┃ 
+┃
+┣ 📂 report
+┃    Contient le rapport du projet, en PDF et Latex.
+┃ 
+┣ 📂 src
+┃    Contient le code source du projet.
+┃ 
+┣ 📂 subject
+┃    Contient le sujet du problème ainsi que les articles en lien avec.
+┃ 
 ```
