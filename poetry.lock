@@ -108,6 +108,18 @@ tests = ["attrs", "zope-interface"]
 tests-no-zope = ["cloudpickle", "hypothesis", "mypy (>=1.1.1)", "pympler", "pytest-mypy-plugins", "pytest-xdist", "pytest (>=4.3.0)"]
 
 [[package]]
+name = "autopep8"
+version = "2.0.4"
+description = "A tool that automatically formats Python code to conform to the PEP 8 style guide"
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+pycodestyle = ">=2.10.0"
+tomli = {version = "*", markers = "python_version < \"3.11\""}
+
+[[package]]
 name = "babel"
 version = "2.12.1"
 description = "Internationalization utilities"
@@ -137,6 +149,31 @@ soupsieve = ">1.2"
 [package.extras]
 html5lib = ["html5lib"]
 lxml = ["lxml"]
+
+[[package]]
+name = "black"
+version = "23.9.1"
+description = "The uncompromising code formatter."
+category = "dev"
+optional = false
+python-versions = ">=3.8"
+
+[package.dependencies]
+click = ">=8.0.0"
+ipython = {version = ">=7.8.0", optional = true, markers = "extra == \"jupyter\""}
+mypy-extensions = ">=0.4.3"
+packaging = ">=22.0"
+pathspec = ">=0.9.0"
+platformdirs = ">=2"
+tokenize-rt = {version = ">=3.2.0", optional = true, markers = "extra == \"jupyter\""}
+tomli = {version = ">=1.1.0", markers = "python_version < \"3.11\""}
+typing-extensions = {version = ">=4.0.1", markers = "python_version < \"3.11\""}
+
+[package.extras]
+colorama = ["colorama (>=0.4.3)"]
+d = ["aiohttp (>=3.7.4)"]
+jupyter = ["ipython (>=7.8.0)", "tokenize-rt (>=3.2.0)"]
+uvloop = ["uvloop (>=0.15.2)"]
 
 [[package]]
 name = "bleach"
@@ -179,6 +216,17 @@ description = "The Real First Universal Charset Detector. Open, modern and activ
 category = "main"
 optional = false
 python-versions = ">=3.7.0"
+
+[[package]]
+name = "click"
+version = "8.1.7"
+description = "Composable command line interface toolkit"
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+colorama = {version = "*", markers = "platform_system == \"Windows\""}
 
 [[package]]
 name = "colorama"
@@ -286,6 +334,19 @@ python-versions = "*"
 
 [package.extras]
 devel = ["colorama", "jsonschema", "json-spec", "pylint", "pytest", "pytest-benchmark", "pytest-cache", "validictory"]
+
+[[package]]
+name = "flake8"
+version = "6.1.0"
+description = "the modular source code checker: pep8 pyflakes and co"
+category = "dev"
+optional = false
+python-versions = ">=3.8.1"
+
+[package.dependencies]
+mccabe = ">=0.7.0,<0.8.0"
+pycodestyle = ">=2.11.0,<2.12.0"
+pyflakes = ">=3.1.0,<3.2.0"
 
 [[package]]
 name = "fonttools"
@@ -427,6 +488,20 @@ python-versions = ">=3.7"
 
 [package.dependencies]
 arrow = ">=0.15.0"
+
+[[package]]
+name = "isort"
+version = "5.12.0"
+description = "A Python utility / library to sort Python imports."
+category = "dev"
+optional = false
+python-versions = ">=3.8.0"
+
+[package.extras]
+colors = ["colorama (>=0.4.3)"]
+requirements-deprecated-finder = ["pip-api", "pipreqs"]
+pipfile-deprecated-finder = ["pip-shims (>=0.5.2)", "pipreqs", "requirementslib"]
+plugins = ["setuptools"]
 
 [[package]]
 name = "jedi"
@@ -783,12 +858,28 @@ python-versions = ">=3.5"
 traitlets = "*"
 
 [[package]]
+name = "mccabe"
+version = "0.7.0"
+description = "McCabe checker, plugin for flake8"
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
 name = "mistune"
 version = "3.0.1"
 description = "A sane and fast Markdown parser with useful plugins and renderers"
 category = "main"
 optional = false
 python-versions = ">=3.7"
+
+[[package]]
+name = "mypy-extensions"
+version = "1.0.0"
+description = "Type system extensions for programs checked with the mypy type checker."
+category = "dev"
+optional = false
+python-versions = ">=3.5"
 
 [[package]]
 name = "nbclient"
@@ -860,6 +951,23 @@ traitlets = ">=5.1"
 [package.extras]
 docs = ["myst-parser", "pydata-sphinx-theme", "sphinx", "sphinxcontrib-github-alt", "sphinxcontrib-spelling"]
 test = ["pep440", "pre-commit", "pytest", "testpath"]
+
+[[package]]
+name = "nbqa"
+version = "1.7.0"
+description = "Run any standard Python code quality tool on a Jupyter Notebook"
+category = "dev"
+optional = false
+python-versions = ">=3.8.0"
+
+[package.dependencies]
+autopep8 = ">=1.5"
+ipython = ">=7.8.0"
+tokenize-rt = ">=3.2.0"
+tomli = "*"
+
+[package.extras]
+toolchain = ["black", "blacken-docs", "flake8", "isort", "jupytext", "mypy", "pylint", "pyupgrade", "ruff"]
 
 [[package]]
 name = "nest-asyncio"
@@ -1004,6 +1112,14 @@ qa = ["flake8 (==3.8.3)", "mypy (==0.782)"]
 testing = ["docopt", "pytest (<6.0.0)"]
 
 [[package]]
+name = "pathspec"
+version = "0.11.2"
+description = "Utility library for gitignore style pattern matching of file paths."
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[[package]]
 name = "pexpect"
 version = "4.8.0"
 description = "Pexpect allows easy control of interactive console applications."
@@ -1099,12 +1215,28 @@ python-versions = "*"
 tests = ["pytest"]
 
 [[package]]
+name = "pycodestyle"
+version = "2.11.0"
+description = "Python style guide checker"
+category = "dev"
+optional = false
+python-versions = ">=3.8"
+
+[[package]]
 name = "pycparser"
 version = "2.21"
 description = "C parser in Python"
 category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+
+[[package]]
+name = "pyflakes"
+version = "3.1.0"
+description = "passive checker of Python programs"
+category = "dev"
+optional = false
+python-versions = ">=3.8"
 
 [[package]]
 name = "pygments"
@@ -1405,6 +1537,14 @@ doc = ["sphinx", "sphinx-rtd-theme"]
 test = ["pytest", "isort", "flake8"]
 
 [[package]]
+name = "tokenize-rt"
+version = "5.2.0"
+description = "A wrapper around the stdlib `tokenize` which roundtrips."
+category = "dev"
+optional = false
+python-versions = ">=3.8"
+
+[[package]]
 name = "tomli"
 version = "2.0.1"
 description = "A lil' TOML parser"
@@ -1525,7 +1665,7 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "30d1af10b4eac47d89521c0c632405a5b38093b189b98a346868e72a6b15192f"
+content-hash = "21579e1eb2e45c841515e97cb0fe3efbbf0771acb06577f007070727fc65b483"
 
 [metadata.files]
 anyio = []
@@ -1536,13 +1676,16 @@ arrow = []
 asttokens = []
 async-lru = []
 attrs = []
+autopep8 = []
 babel = []
 backcall = []
 beautifulsoup4 = []
+black = []
 bleach = []
 certifi = []
 cffi = []
 charset-normalizer = []
+click = []
 colorama = []
 comm = []
 contourpy = []
@@ -1553,6 +1696,7 @@ defusedxml = []
 exceptiongroup = []
 executing = []
 fastjsonschema = []
+flake8 = []
 fonttools = []
 fqdn = []
 idna = []
@@ -1561,6 +1705,7 @@ ipython = []
 ipython-genutils = []
 ipywidgets = []
 isoduration = []
+isort = []
 jedi = []
 jinja2 = []
 json5 = []
@@ -1583,10 +1728,13 @@ kiwisolver = []
 markupsafe = []
 matplotlib = []
 matplotlib-inline = []
+mccabe = []
 mistune = []
+mypy-extensions = []
 nbclient = []
 nbconvert = []
 nbformat = []
+nbqa = []
 nest-asyncio = []
 networkx = []
 notebook = []
@@ -1597,6 +1745,7 @@ packaging = []
 pandas = []
 pandocfilters = []
 parso = []
+pathspec = []
 pexpect = []
 pickleshare = []
 pillow = []
@@ -1606,7 +1755,9 @@ prompt-toolkit = []
 psutil = []
 ptyprocess = []
 pure-eval = []
+pycodestyle = []
 pycparser = []
+pyflakes = []
 pygments = []
 pyparsing = []
 python-dateutil = []
@@ -1632,6 +1783,7 @@ soupsieve = []
 stack-data = []
 terminado = []
 tinycss2 = []
+tokenize-rt = []
 tomli = []
 tornado = []
 traitlets = []
