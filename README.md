@@ -21,3 +21,17 @@ Contient le code source du projet.
 
 > [`📂 subject`](https://github.com/Ab2nour/projet-graphe/tree/main/subject)    
 Contient le sujet du problème ainsi que les articles en lien avec.
+
+
+# Todo: changer le design de la présentation des dossiers?
+
+Voici l'organisation des différents dossiers du projet :
+
+[`📂 report`](https://github.com/Ab2nour/projet-graphe/tree/main/report)  
+> Contient le rapport du projet, en PDF et Latex.
+
+[`📂 src`](https://github.com/Ab2nour/projet-graphe/tree/main/src)    
+> Contient le code source du projet.
+
+[`📂 subject`](https://github.com/Ab2nour/projet-graphe/tree/main/subject)    
+> Contient le sujet du problème ainsi que les articles en lien avec.
