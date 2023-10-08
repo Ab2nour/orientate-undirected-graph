@@ -1,5 +1,7 @@
 from networkx import Graph
 
+simple_graph = Graph([(1, 2), (1, 3), (2, 3), ])
+
 example = Graph(
     [
         (1, 2),
