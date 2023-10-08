@@ -2,6 +2,7 @@ from typing import Final
 
 import matplotlib.pyplot as plt
 import networkx as nx
+import numpy as np
 
 # Our default presets
 COLORS: Final[dict[str, str]] = {
@@ -38,3 +39,17 @@ def draw_graph(graph: nx.Graph) -> None:
     _draw_graph(
         graph, COLORS["node_color"], COLORS["node_border_color"], COLORS["edge_color"]
     )
+
+
+def couleur_aleatoire() -> tuple[float, float, float]:
+    """
+    Renvoie une couleur aléatoire.
+    Pour ne pas avoir une couleur trop foncée, on fixe une limite.
+    """
+    limite = 0.5
+    r, g, b = (
+        np.random.uniform(limite, 1),
+        np.random.uniform(limite, 1),
+        np.random.uniform(limite, 1),
+    )
+    return r, g, b
