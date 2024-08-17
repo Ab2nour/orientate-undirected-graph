@@ -3,7 +3,7 @@
 Projet de L3 Informatique, en Théorie des Graphes.
 
 ![Arbre de parcours d'un DFS](
-    report/img/graphe-oriente-gris.png 
+    assets/report/img/graphe-oriente-gris.png 
     "Arbre de parcours d'un DFS"
 )
 
@@ -11,11 +11,8 @@ L'objectif principal est d'orienter un graphe non-orienté en graphe fortement c
 
 # Organisation des dossiers
 
-[`📂 report`](report)  
-> Contient le rapport du projet, en PDF et Latex.
+[`📂 assets`](assets)  
+> Contient les ressources liées au projet (images, rapport du projet, en PDF et Latex).
 
 [`📂 src`](src)    
 > Contient le code source du projet.
-
-[`📂 subject`](subject)    
-> Contient le sujet du problème ainsi que les articles en lien avec.
