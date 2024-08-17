@@ -3,7 +3,8 @@ from networkx import DiGraph
 
 from src.graphs import example
 from src.graph_functions import lance_parcours, decomposition_en_chaines, nombre_cycles, \
-    est_connexe, deux_connexite
+    est_connexe, deux_connexite, calcule_comp_2_arete_connexe, \
+    trouve_sommets_articulation, calcule_comp_2_sommet_connexe
 from src.functions import draw_graph
 
 resultat = lance_parcours(example)
@@ -53,8 +54,13 @@ if deux_arete_connexe:
 if deux_sommet_connexe:
     print("Le graphe est 2-sommet-connexe")
 
-# composantes_2_arete_connexe = calcule_comp_2_arete_connexe(ponts)
+composantes_2_arete_connexe = calcule_comp_2_arete_connexe(example, ponts)
+plt.figure()
+draw_graph(composantes_2_arete_connexe)
+#plt.show()
 #
-# sommets_art = trouve_sommets_articulation(ponts)
+sommets_art = trouve_sommets_articulation(ponts, chaines)
 #
-# comp_2_sommet_connexe = calcule_comp_2_sommet_connexe(ponts)
+comp_2_sommet_connexe = calcule_comp_2_sommet_connexe(example, list(ponts), chaines)
+plt.figure()
+draw_graph(comp_2_sommet_connexe)

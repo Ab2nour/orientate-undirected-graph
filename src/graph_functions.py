@@ -263,7 +263,7 @@ def trouve_sommets_articulation(ponts, chaines):
     sommets_articulation = set()
 
     # les ponts
-    for u, v, _ in ponts:  # arête (u, v) et _ représente le label
+    for u, v in ponts:  # arête (u, v)
         sommets_articulation.update([u, v])
 
     # premier sommet des cycles C_2, ..., C_k
@@ -319,7 +319,7 @@ def calcule_comp_2_sommet_connexe(graph: Graph, ponts, chaines):
 
     # les ponts
     for i in range(len(ponts)):
-        u, v, _ = ponts[i]  # arête (u, v) et _ représente le label
+        u, v = ponts[i]  # arête (u, v) et _ représente le label
 
         composantes_2_sommet_connexe.remove_edge(u, v)
 
