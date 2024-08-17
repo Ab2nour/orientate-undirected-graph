@@ -104,7 +104,7 @@ def lance_parcours(graph: DiGraph, noeuds: list[int], couleur: dict,
     Fonction qui lance le parcours en profondeur.
     """
     arbre_parcours = DiGraph()  # DFS-tree T (contient *aussi* les arc arrières !)
-    arbre_parcours.add_nodes_from(noeuds)
+    arbre_parcours.add_nodes_from(noeuds) # on met tous les noeuds de G dans T
 
     graph_info = {
         "couleur": {n: BLANC for n in noeuds},
@@ -128,4 +128,76 @@ graph_info_example2 = {
     "couleur": {0: BLANC, 1: BLANC, 2: BLANC},
     "deja_vu": [False, False, False],
     "chaines": [[0], [1], [2]],
+    "graphe_ponts": Graph(),
+    "nb_aretes_visitees": 0,
 }
+
+
+def parcours_decomposition_chaine(noeud, t, graph_info: dict[str, Any], DEBUG=True):
+    """
+    Parcours individuel de chaque noeud,
+    pour la décomposition en chaînes.
+    Ici, on s'arrête dès qu'on rencontre un noeud déjà visité.
+
+    t: arbre de parcours
+    """
+    if DEBUG:
+        print("debut", noeud)
+    graph_info["deja_vu"][noeud] = True
+
+    if DEBUG:
+        print(f"\nAJOUT debut fonction : {graph_info['chaines']}")
+    graph_info["chaines"][-1].append(noeud)
+
+    for voisin in t.neighbors(noeud):
+        if DEBUG:
+            print("\t", voisin)
+
+        graph_info["graphe_ponts"].remove_edge((noeud, voisin))
+        if graph_info["deja_vu"][voisin]:  # on s'arrête
+            if DEBUG:
+                print(f"\nAJOUT voisin : {graph_info['chaines']}")
+            graph_info["chaines"][-1].append(voisin)
+            break
+        else:
+            graph_info["nb_aretes_visitees"] += 1
+            parcours_decomposition_chaine(voisin, t, graph_info)
+
+    if DEBUG:
+        print("fin", noeud)
+
+
+def decomposition_en_chaines(graph: Graph, graphe_arriere, t, ordre_dfi: list[int],
+                             DEBUG=True):
+    """
+    Fonction qui effectue la décomposition en chaîne,
+    à partir de l'arbre de parcours.
+
+
+    -----
+    graphe_arriere: graphe des arc arrières
+
+    t: arbre de parcours
+
+    ordre_dfi: ordre des noeuds à parcourir (DFI index)
+    """
+    graph_info = {
+        "couleur": {0: BLANC, 1: BLANC, 2: BLANC},
+        "deja_vu": [False, False, False],
+        "chaines": [],
+        "graphe_ponts": Graph(graph.edges()),
+        "nb_aretes_visitees": 0,
+    }
+
+    # ordre de parcours des noeuds
+    for noeud in ordre_dfi:  # pour chaque noeud
+        graph_info["deja_vu"][noeud] = True
+
+        for voisin in graphe_arriere.neighbors_out(
+            noeud
+        ):  # pour chaque arc arrière
+            if DEBUG:
+                print("\t", voisin)
+            graph_info["chaines"].append([noeud])
+            graph_info["graphe_ponts"].remove_edge(noeud, voisin)
+            parcours_decomposition_chaine(voisin, t, graph_info)
