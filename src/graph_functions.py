@@ -188,10 +188,10 @@ def decomposition_en_chaines(graph: Graph, graphe_arriere, t, ordre_dfi: list[in
     """
     graph_info = {
         "couleur": {i: BLANC for i in graph.nodes},
-        "deja_vu": [False for _ in graph.nodes],
+        "deja_vu": {i: False for i in graph.nodes},
         "chaines": [],
         "graphe_ponts": Graph(graph.edges),
-        "nb_aretes_visitees": 0,
+        "nb_aretes_visitees": 0, # todo: useless il semblerait ?
     }
 
     # ordre de parcours des noeuds
@@ -206,6 +206,8 @@ def decomposition_en_chaines(graph: Graph, graphe_arriere, t, ordre_dfi: list[in
             graph_info["chaines"].append([noeud])
             graph_info["graphe_ponts"].remove_edge(noeud, voisin)
             parcours_decomposition_chaine(voisin, t, graph_info)
+
+    return graph_info
 
 
 def calcule_comp_2_arete_connexe(graph: Graph, ponts):
