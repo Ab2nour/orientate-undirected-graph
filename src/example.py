@@ -5,7 +5,7 @@ from src.graphs import example
 from src.graph_functions import lance_parcours, decomposition_en_chaines, nombre_cycles, \
     est_connexe, deux_connexite, calcule_comp_2_arete_connexe, \
     trouve_sommets_articulation, calcule_comp_2_sommet_connexe
-from src.functions import draw_graph
+from src.utils import draw_graph
 
 resultat = lance_parcours(example)
 
