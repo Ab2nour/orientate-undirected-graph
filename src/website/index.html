@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphe interactif avec Pyodide</title>
+</head>
+<body>
+    <h2>Graphe interactif avec NetworkX et Pyodide</h2>
+
+    <label for="nodeInput">Ajouter un nœud :</label>
+    <input type="number" id="nodeInput">
+    <button onclick="addNode()">Ajouter</button>
+
+    <br><br>
+
+    <label for="edgeInput1">Ajouter une arête entre :</label>
+    <input type="number" id="edgeInput1">
+    <input type="number" id="edgeInput2">
+    <button onclick="addEdge()">Ajouter</button>
+
+    <br><br>
+
+    <canvas id="canvas"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script>
+        let pyodide;
+        let graphData = { nodes: [], edges: [] }; // Stockage des nœuds et arêtes
+
+        async function main() {
+            // Charger Pyodide et les packages
+            pyodide = await loadPyodide();
+            await pyodide.loadPackage(["matplotlib", "networkx"]);
+            drawGraph(); // Dessiner le graphe initial
+        }
+
+        async function drawGraph() {
+            let pythonCode = `
+import networkx as nx
+import matplotlib.pyplot as plt
+import io
+import base64
+
+# Construire le graphe depuis JavaScript
+nodes = ${JSON.stringify(graphData.nodes)}
+edges = ${JSON.stringify(graphData.edges)}
+
+G = nx.Graph()
+G.add_nodes_from(nodes)
+G.add_edges_from(edges)
+
+# Dessiner le graphe
+fig, ax = plt.subplots()
+nx.draw(G, with_labels=True, node_color="lightblue", edge_color="gray", ax=ax)
+
+# Sauvegarde de l'image en base64
+buf = io.BytesIO()
+plt.savefig(buf, format="png")
+buf.seek(0)
+data = base64.b64encode(buf.read()).decode("utf-8")
+data = "data:image/png;base64," + data
+data
+`;
+
+            // Exécuter le script Python et récupérer l'image
+            let imageData = await pyodide.runPythonAsync(pythonCode);
+
+            // Afficher l'image sur la page
+            let img = document.getElementById("graphImage");
+            if (!img) {
+                img = new Image();
+                img.id = "graphImage";
+                document.body.appendChild(img);
+            }
+            img.src = imageData;
+        }
+
+        function addNode() {
+            let nodeInput = document.getElementById("nodeInput");
+            let nodeValue = parseInt(nodeInput.value);
+            if (!isNaN(nodeValue) && !graphData.nodes.includes(nodeValue)) {
+                graphData.nodes.push(nodeValue);
+                drawGraph();
+            }
+            nodeInput.value = "";
+        }
+
+        function addEdge() {
+            let node1 = parseInt(document.getElementById("edgeInput1").value);
+            let node2 = parseInt(document.getElementById("edgeInput2").value);
+            if (!isNaN(node1) && !isNaN(node2) && node1 !== node2) {
+                let edge = [node1, node2];
+                if (!graphData.edges.some(e => (e[0] === edge[0] && e[1] === edge[1]) || (e[0] === edge[1] && e[1] === edge[0]))) {
+                    graphData.edges.push(edge);
+                    drawGraph();
+                }
+            }
+            document.getElementById("edgeInput1").value = "";
+            document.getElementById("edgeInput2").value = "";
+        }
+
+        main(); // Démarrer le script
+    </script>
+</body>
+</html>
