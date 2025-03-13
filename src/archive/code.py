@@ -1,4 +1,6 @@
 # couleurs utilisées pour les parcours
+from networkx import DiGraph, Graph
+
 BLANC = 0
 GRIS = 1
 NOIR = 2
