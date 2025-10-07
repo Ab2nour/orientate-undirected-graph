@@ -12,6 +12,7 @@ options_couleurs = {  # pour l'AFFICHAGE du graphe
     "arriere": "#a0a0a0",  # couleur des arcs arrières
 }
 
+
 def nombre_cycles(decomp_chaines):
     """
     Étant donné une décomposition en chaînes,
@@ -172,8 +173,9 @@ def parcours_decomposition_chaine(noeud, t, graph_info: dict[str, Any], DEBUG=Tr
         print("fin", noeud)
 
 
-def decomposition_en_chaines(graph: Graph, graphe_arriere, t, ordre_dfi: list[int],
-                             DEBUG=True):
+def decomposition_en_chaines(
+    graph: Graph, graphe_arriere, t, ordre_dfi: list[int], DEBUG=True
+):
     """
     Fonction qui effectue la décomposition en chaîne,
     à partir de l'arbre de parcours.
@@ -191,16 +193,14 @@ def decomposition_en_chaines(graph: Graph, graphe_arriere, t, ordre_dfi: list[in
         "deja_vu": {i: False for i in graph.nodes},
         "chaines": [],
         "graphe_ponts": Graph(graph.edges),
-        "nb_aretes_visitees": 0, # todo: useless il semblerait ?
+        "nb_aretes_visitees": 0,  # todo: useless il semblerait ?
     }
 
     # ordre de parcours des noeuds
     for noeud in ordre_dfi:  # pour chaque noeud
         graph_info["deja_vu"][noeud] = True
 
-        for voisin in graphe_arriere.neighbors(
-                noeud
-        ):  # pour chaque arc arrière
+        for voisin in graphe_arriere.neighbors(noeud):  # pour chaque arc arrière
             if DEBUG:
                 print("\t", voisin)
             graph_info["chaines"].append([noeud])

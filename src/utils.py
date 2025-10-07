@@ -23,10 +23,7 @@ def draw_graph(graph: nx.Graph) -> plt.Figure:
     fig = plt.figure()
     plt.axis("off")
 
-    nx.draw_networkx(
-        graph,
-        **color_options
-    )
+    nx.draw_networkx(graph, **color_options)
     return fig
 
 
