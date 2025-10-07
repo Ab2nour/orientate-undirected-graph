@@ -1,23 +1,56 @@
-[tool.poetry]
+[project]
 name = "projet-graphe"
 version = "0.1.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "jupyter>=1.1.1",
+    "matplotlib>=3.10.6",
+    "networkx>=3.5",
+    "numpy>=2.3.3",
+    "seaborn>=0.13.2",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-numpy = "^1.25.2"
-matplotlib = "^3.7.3"
-seaborn = "^0.12.2"
-networkx = "^3.1"
-jupyter = "^1.0.0"
+[dependency-groups]
+dev = [
+    "pytest>=8.4.2",
+    "ruff>=0.14.0",
+]
 
-[tool.poetry.dev-dependencies]
-black = {extras = ["jupyter"], version = "^23.9.1"}
-isort = "^5.12.0"
-flake8 = "^6.1.0"
-nbqa = "^1.7.0"
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "UP",
+    "B",
+    "SIM",
+    "I",
+    "RUF",
+    "FURB",
+    "W",
+    "PERF",
+    "N",
+    "PD",
+    "NPY",
+    "FLY",
+    "PTH",
+    "ARG",
+    "TC",
+    "SLOT",
+    "SIM",
+    "SLF",
+    "Q",
+    "PT",
+    "PYI",
+    "ANN",
+    "DOC",
+    "D",
+    "D212",
+    "D402",
+    "D415",
+    "D417",
+]
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
