@@ -1,6 +1,6 @@
 from typing import Any
 
-from networkx import Graph, DiGraph
+from networkx import DiGraph, Graph
 
 # couleurs utilisées pour les parcours
 BLANC = 0
@@ -14,8 +14,7 @@ options_couleurs = {  # pour l'AFFICHAGE du graphe
 
 
 def nombre_cycles(decomp_chaines):
-    """
-    Étant donné une décomposition en chaînes,
+    """Étant donné une décomposition en chaînes,
     renvoie le nombre de cycles qu'elle contient.
 
     Chaque chaîne est de la forme [v_1, v_2, ..., v_n].
@@ -30,7 +29,6 @@ def nombre_cycles(decomp_chaines):
     -----
     decomp_chaines: une décomposition en chaînes
     """
-
     nb_cycles = 0
 
     for chaine in decomp_chaines:
@@ -41,8 +39,7 @@ def nombre_cycles(decomp_chaines):
 
 
 def deux_connexite(chaines, graphe_ponts):
-    """
-    Met à jour la 2-arête-connexité et 2-sommet-connexité du graphe.
+    """Met à jour la 2-arête-connexité et 2-sommet-connexité du graphe.
     """
     deux_arete_connexe = False
     deux_sommet_connexe = False
@@ -62,14 +59,13 @@ def deux_connexite(chaines, graphe_ponts):
 
 
 def est_connexe(couleur: dict):
-    """
-    Renvoie True si le graphe est connexe, False sinon.
+    """Renvoie True si le graphe est connexe, False sinon.
     On vérifie qu'il ne reste aucun sommet blanc.
 
     couleur est un dict dict[Graph.nodes, int] (todo: type invalide mais donne une
     bonne idée)
     """
-    return not (BLANC in couleur.values())
+    return BLANC not in couleur.values()
 
 
 arbre_parcours_example = DiGraph()
@@ -107,8 +103,7 @@ def parcours(graph: DiGraph, graph_info: dict[str, Any], noeud, DEBUG=False):
 
 
 def lance_parcours(graph: DiGraph, ordre: list[int] | None = None) -> dict[str]:
-    """
-    Fonction qui lance le parcours en profondeur.
+    """Fonction qui lance le parcours en profondeur.
     """
     arbre_parcours = DiGraph()  # DFS-tree T (contient *aussi* les arc arrières !)
     arbre_parcours.add_nodes_from(graph.nodes)  # on met tous les noeuds de G dans T
@@ -141,8 +136,7 @@ graph_info_example2 = {
 
 
 def parcours_decomposition_chaine(noeud, t, graph_info: dict[str, Any], DEBUG=True):
-    """
-    Parcours individuel de chaque noeud,
+    """Parcours individuel de chaque noeud,
     pour la décomposition en chaînes.
     Ici, on s'arrête dès qu'on rencontre un noeud déjà visité.
 
@@ -176,8 +170,7 @@ def parcours_decomposition_chaine(noeud, t, graph_info: dict[str, Any], DEBUG=Tr
 def decomposition_en_chaines(
     graph: Graph, graphe_arriere, t, ordre_dfi: list[int], DEBUG=True
 ):
-    """
-    Fonction qui effectue la décomposition en chaîne,
+    """Fonction qui effectue la décomposition en chaîne,
     à partir de l'arbre de parcours.
 
 
@@ -211,8 +204,7 @@ def decomposition_en_chaines(
 
 
 def calcule_comp_2_arete_connexe(graph: Graph, ponts):
-    """
-    Renvoie les composantes 2-arêtes-connexes du graphe.
+    """Renvoie les composantes 2-arêtes-connexes du graphe.
 
     On supprime les ponts du graphe original.
     Puis on supprime tous les sommets de degré 0 restant après ceci.
@@ -220,7 +212,6 @@ def calcule_comp_2_arete_connexe(graph: Graph, ponts):
     -----
     ponts: liste des ponts du graphe
     """
-
     # On copie le graphe
     composantes_2_arete_connexe = Graph(graph)
 
@@ -238,8 +229,7 @@ def calcule_comp_2_arete_connexe(graph: Graph, ponts):
 
 
 def trouve_sommets_articulation(ponts, chaines):
-    """
-    Cette fonction renvoie tous les sommets d'articulation
+    """Cette fonction renvoie tous les sommets d'articulation
     du graphe.
 
 
@@ -258,7 +248,6 @@ def trouve_sommets_articulation(ponts, chaines):
     -----
     ponts: liste des ponts du graphe
     """
-
     # on utilise un ensemble pour éviter les doublons
     sommets_articulation = set()
 
@@ -279,9 +268,7 @@ def trouve_sommets_articulation(ponts, chaines):
 
 
 def calcule_comp_2_sommet_connexe(graph: Graph, ponts, chaines):
-    """
-    Renvoie les composantes 2-sommet-connexes du graphe.
-
+    """Renvoie les composantes 2-sommet-connexes du graphe.
 
     * Pour chaque pont (u, v) :
 
@@ -310,7 +297,6 @@ def calcule_comp_2_sommet_connexe(graph: Graph, ponts, chaines):
     -----
     ponts: liste des ponts du graphe
     """
-
     # Pour éviter de traiter plusieurs fois les sommets d'articulation:
     # deja_vu = {i: False for i in a}
 
@@ -327,8 +313,8 @@ def calcule_comp_2_sommet_connexe(graph: Graph, ponts, chaines):
         # au numéro du pont préfixé par la lettre 'p'
         # ceci est arbitraire et sert juste à différencier
         # les noeuds.
-        nouveau_u = f"{str(u)}_p{i}"
-        nouveau_v = f"{str(v)}_p{i}"
+        nouveau_u = f"{u!s}_p{i}"
+        nouveau_v = f"{v!s}_p{i}"
 
         composantes_2_sommet_connexe.add_node(nouveau_u)
         composantes_2_sommet_connexe.add_node(nouveau_v)
@@ -361,7 +347,7 @@ def calcule_comp_2_sommet_connexe(graph: Graph, ponts, chaines):
                 # au numéro de la chaîne préfixé par la lettre 'c'
                 # ceci est arbitraire et sert juste à différencier
                 # les noeuds.
-                nouveau_noeud = f"{str(noeud)}_c{i}"
+                nouveau_noeud = f"{noeud!s}_c{i}"
 
                 composantes_2_sommet_connexe.add_node(nouveau_noeud)
 

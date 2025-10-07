@@ -16,9 +16,7 @@ plot_couleur = lambda arbre: arbre.plot(
 
 
 def parcours_graphe(g, ordre=None):
-    """
-    Cette fonction permet de parcourir un graphe.
-
+    """Cette fonction permet de parcourir un graphe.
 
     -----
     g: graphe à parcourir
@@ -48,10 +46,9 @@ def parcours_graphe(g, ordre=None):
     def parcours(noeud):
         """Parcours individuel de chaque noeud.
 
-
         -----
-        noeud: noeud à parcourir"""
-
+        noeud: noeud à parcourir
+        """
         couleur[noeud] = GRIS
         ordre_dfi.append(noeud)
 
@@ -67,18 +64,14 @@ def parcours_graphe(g, ordre=None):
         couleur[noeud] = NOIR
 
     def est_connexe():
-        """
-        Renvoie True si le graphe est connexe, False sinon.
+        """Renvoie True si le graphe est connexe, False sinon.
         On vérifie qu'il ne reste aucun sommet blanc.
         """
-
-        return not (BLANC in couleur.values())
+        return BLANC not in couleur.values()
 
     def lance_parcours():
+        """Fonction qui lance le parcours en profondeur.
         """
-        Fonction qui lance le parcours en profondeur.
-        """
-
         if ordre:  # si on a un ordre de parcours des noeuds
             for n in ordre:
                 if couleur[n] == BLANC:
@@ -89,8 +82,7 @@ def parcours_graphe(g, ordre=None):
                     parcours(n)
 
     def parcours_decomposition_chaine(noeud, t=arbre_parcours):
-        """
-        Parcours individuel de chaque noeud,
+        """Parcours individuel de chaque noeud,
         pour la décomposition en chaînes.
         Ici, on s'arrête dès qu'on rencontre un noeud déjà visité.
 
@@ -98,7 +90,6 @@ def parcours_graphe(g, ordre=None):
         -----
         noeud: noeud à parcourir
         """
-
         deja_vu[noeud] = True
 
         chaines[-1].append(noeud)
@@ -112,8 +103,7 @@ def parcours_graphe(g, ordre=None):
                 parcours_decomposition_chaine(voisin)
 
     def decomposition_en_chaines(graphe_arriere, t, ordre=ordre_dfi):
-        """
-        Fonction qui effectue la décomposition en chaîne,
+        """Fonction qui effectue la décomposition en chaîne,
         à partir de l'arbre de parcours.
 
 
@@ -124,7 +114,6 @@ def parcours_graphe(g, ordre=None):
 
         ordre: ordre des noeuds à parcourir (DFI index)
         """
-
         # ordre de parcours des noeuds
         for noeud in ordre:  # pour chaque noeud
             deja_vu[noeud] = True
@@ -137,8 +126,7 @@ def parcours_graphe(g, ordre=None):
                 parcours_decomposition_chaine(voisin, t)
 
     def nombre_cycles(decomp_chaines):
-        """
-        Étant donné une décomposition en chaînes,
+        """Étant donné une décomposition en chaînes,
         renvoie le nombre de cycles qu'elle contient.
 
         Chaque chaîne est de la forme [v_1, v_2, ..., v_n].
@@ -153,7 +141,6 @@ def parcours_graphe(g, ordre=None):
         -----
         decomp_chaines: une décomposition en chaînes
         """
-
         nb_cycles = 0
 
         for chaine in decomp_chaines:
@@ -163,8 +150,7 @@ def parcours_graphe(g, ordre=None):
         return nb_cycles
 
     def calcule_comp_2_arete_connexe(ponts):
-        """
-        Renvoie les composantes 2-arêtes-connexes du graphe.
+        """Renvoie les composantes 2-arêtes-connexes du graphe.
 
         On supprime les ponts du graphe original.
         Puis on supprime tous les sommets de degré 0 restant après ceci.
@@ -172,7 +158,6 @@ def parcours_graphe(g, ordre=None):
         -----
         ponts: liste des ponts du graphe
         """
-
         # On copie le graphe
         composantes_2_arete_connexe = Graph(g)
 
@@ -189,8 +174,7 @@ def parcours_graphe(g, ordre=None):
         return composantes_2_arete_connexe
 
     def trouve_sommets_articulation(ponts):
-        """
-        Cette fonction renvoie tous les sommets d'articulation
+        """Cette fonction renvoie tous les sommets d'articulation
         du graphe.
 
 
@@ -209,7 +193,6 @@ def parcours_graphe(g, ordre=None):
         -----
         ponts: liste des ponts du graphe
         """
-
         # on utilise un ensemble pour éviter les doublons
         sommets_articulation = set()
 
@@ -229,9 +212,7 @@ def parcours_graphe(g, ordre=None):
         return sommets_articulation
 
     def calcule_comp_2_sommet_connexe(ponts):
-        """
-        Renvoie les composantes 2-sommet-connexes du graphe.
-
+        """Renvoie les composantes 2-sommet-connexes du graphe.
 
         * Pour chaque pont (u, v) :
 
@@ -260,7 +241,6 @@ def parcours_graphe(g, ordre=None):
         -----
         ponts: liste des ponts du graphe
         """
-
         # On copie le graphe
         composantes_2_sommet_connexe = Graph(g)
 
@@ -274,8 +254,8 @@ def parcours_graphe(g, ordre=None):
             # au numéro du pont préfixé par la lettre 'p'
             # ceci est arbitraire et sert juste à différencier
             # les noeuds.
-            nouveau_u = f"{str(u)}_p{i}"
-            nouveau_v = f"{str(v)}_p{i}"
+            nouveau_u = f"{u!s}_p{i}"
+            nouveau_v = f"{v!s}_p{i}"
 
             composantes_2_sommet_connexe.add_vertex(nouveau_u)
             composantes_2_sommet_connexe.add_vertex(nouveau_v)
@@ -308,7 +288,7 @@ def parcours_graphe(g, ordre=None):
                     # au numéro de la chaîne préfixé par la lettre 'c'
                     # ceci est arbitraire et sert juste à différencier
                     # les noeuds.
-                    nouveau_noeud = f"{str(noeud)}_c{i}"
+                    nouveau_noeud = f"{noeud!s}_c{i}"
 
                     composantes_2_sommet_connexe.add_vertex(nouveau_noeud)
 
@@ -322,8 +302,7 @@ def parcours_graphe(g, ordre=None):
         return composantes_2_sommet_connexe
 
     def deux_connexite():
-        """
-        Met à jour la 2-arête-connexité et 2-sommet-connexité du graphe.
+        """Met à jour la 2-arête-connexité et 2-sommet-connexité du graphe.
         """
         global deux_arete_connexe, deux_sommet_connexe
 
@@ -380,14 +359,11 @@ def parcours_graphe(g, ordre=None):
 
 
 def affiche_infos(g):
-    """
-    Affiche des informations relatives aux propriétés de g.
-
+    """Affiche des informations relatives aux propriétés de g.
 
     -----
     g: un graphe SageMath
     """
-
     informations = parcours_graphe(g)
 
     print(
@@ -408,8 +384,7 @@ def affiche_infos(g):
 
 
 def affiche_comp_2_sommet_connexe(g):
-    """
-    Etant donné les infos d'un graphe,
+    """Etant donné les infos d'un graphe,
     affiche proprement les composantes 2 sommets connexes
 
 
@@ -425,8 +400,7 @@ def affiche_comp_2_sommet_connexe(g):
     comp_2sc = parcours_graphe(g)["comp_2_sommet_connexe"]
 
     def couleur_aleatoire():
-        """
-        Renvoie une couleur aléatoire.
+        """Renvoie une couleur aléatoire.
         Pour ne pas avoir une couleur trop foncée, on fixe une limite.
         """
         LIMITE = 0.5
@@ -461,7 +435,7 @@ def affiche_comp_2_sommet_connexe(g):
             except:
                 pass
 
-            if nom_noeud in sommets_equivalents.keys():
+            if nom_noeud in sommets_equivalents:
                 sommets_equivalents[nom_noeud].append(v)
             else:  # nouveau groupe de noeuds séparés
                 sommets_equivalents[nom_noeud] = [couleur_aleatoire(), nom_noeud, v]

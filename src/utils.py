@@ -28,8 +28,7 @@ def draw_graph(graph: nx.Graph) -> plt.Figure:
 
 
 def couleur_aleatoire() -> tuple[float, float, float]:
-    """
-    Renvoie une couleur aléatoire.
+    """Renvoie une couleur aléatoire.
     Pour ne pas avoir une couleur trop foncée, on fixe une limite.
     """
     limite = 0.5
