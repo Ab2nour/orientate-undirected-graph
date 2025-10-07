@@ -54,7 +54,7 @@ ponts = graphe_ponts.edges
 print(f"nb de cycles : {nombre_cycles(chaines)}")
 print(
     f"{est_connexe(couleur) = }"
-)  # broken car les couleurs sont toutes blanches (jamais actualisées)
+)  # fixme: broken car les couleurs sont toutes blanches (jamais actualisées)
 # je pense qu'il faut regarder deja_vu à la place
 print(f"ordre DFI {ordre_dfi}")
 
