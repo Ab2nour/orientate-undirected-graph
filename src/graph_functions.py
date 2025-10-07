@@ -39,8 +39,7 @@ def nombre_cycles(decomp_chaines):
 
 
 def deux_connexite(chaines, graphe_ponts):
-    """Met à jour la 2-arête-connexité et 2-sommet-connexité du graphe.
-    """
+    """Met à jour la 2-arête-connexité et 2-sommet-connexité du graphe."""
     deux_arete_connexe = False
     deux_sommet_connexe = False
 
@@ -102,9 +101,10 @@ def parcours(graph: DiGraph, graph_info: dict[str, Any], noeud, DEBUG=False):
     graph_info["couleur"][noeud] = NOIR
 
 
-def lance_parcours(graph: DiGraph, ordre: list[int] | None = None) -> dict[str]:
-    """Fonction qui lance le parcours en profondeur.
-    """
+def lance_parcours(
+    graph: DiGraph, ordre: list[int] | None = None
+) -> dict[str, dict[Any, int] | list[Any] | DiGraph]:
+    """Fonction qui lance le parcours en profondeur."""
     arbre_parcours = DiGraph()  # DFS-tree T (contient *aussi* les arc arrières !)
     arbre_parcours.add_nodes_from(graph.nodes)  # on met tous les noeuds de G dans T
 

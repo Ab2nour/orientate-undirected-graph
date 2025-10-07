@@ -70,8 +70,7 @@ def parcours_graphe(g, ordre=None):
         return BLANC not in couleur.values()
 
     def lance_parcours():
-        """Fonction qui lance le parcours en profondeur.
-        """
+        """Fonction qui lance le parcours en profondeur."""
         if ordre:  # si on a un ordre de parcours des noeuds
             for n in ordre:
                 if couleur[n] == BLANC:
@@ -302,8 +301,7 @@ def parcours_graphe(g, ordre=None):
         return composantes_2_sommet_connexe
 
     def deux_connexite():
-        """Met à jour la 2-arête-connexité et 2-sommet-connexité du graphe.
-        """
+        """Met à jour la 2-arête-connexité et 2-sommet-connexité du graphe."""
         global deux_arete_connexe, deux_sommet_connexe
 
         nb_cycles = nombre_cycles(chaines)
