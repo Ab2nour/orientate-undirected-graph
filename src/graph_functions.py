@@ -49,7 +49,7 @@ def nombre_cycles(decomp_chaines: list[list[int]]) -> int:
     return nb_cycles
 
 
-def deux_connexite(chaines, graphe_ponts):
+def deux_connexite(chaines: list[list[int]], graphe_ponts: Graph) -> tuple[bool, bool]:
     """Met à jour la 2-arête-connexité et 2-sommet-connexité du graphe."""
     deux_arete_connexe = False
     deux_sommet_connexe = False
