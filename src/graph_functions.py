@@ -105,7 +105,7 @@ def parcours(graph: DiGraph, graph_info: dict[str, Any], noeud, DEBUG=False):
     graph_info["couleur"][noeud] = NOIR
 
 
-def lance_parcours(graph: DiGraph, ordre: list[int] | None = None):
+def lance_parcours(graph: DiGraph, ordre: list[int] | None = None) -> dict[str]:
     """
     Fonction qui lance le parcours en profondeur.
     """
