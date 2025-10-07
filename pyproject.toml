@@ -54,3 +54,29 @@ select = [
 
 [tool.ruff.lint.pydocstyle]
 convention = "numpy"
+
+[tool.poe]
+    [tool.poe.tasks.test]
+    help = "Test the codebase"
+    sequence = [
+        {cmd = "uv run pytest --doctest-modules"},
+    ]
+
+    [tool.poe.tasks.format]
+    help = "Format the files"
+    sequence = [
+        {cmd = "uv run ruff format"},
+    ]
+
+    [tool.poe.tasks.lint]
+    help = "Lint the files"
+    sequence = [
+        {cmd = "uv run ruff check --fix"},
+    ]
+
+    [tool.poe.tasks.check]
+    help = "Check formatting & linting"
+    sequence = [
+        {cmd = "uv run ruff format --check"},
+        {cmd = "uv run ruff check"},
+    ]
