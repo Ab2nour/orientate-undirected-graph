@@ -13,7 +13,7 @@ options_couleurs = {  # pour l'AFFICHAGE du graphe
 }
 
 
-def nombre_cycles(decomp_chaines):
+def nombre_cycles(decomp_chaines: list[list[int]]) -> int:
     """Étant donné une décomposition en chaînes,
     renvoie le nombre de cycles qu'elle contient.
 
@@ -28,6 +28,17 @@ def nombre_cycles(decomp_chaines):
 
     -----
     decomp_chaines: une décomposition en chaînes
+
+    Example
+    ---
+    >>> nombre_cycles([[1, 2, 3], [3, 4, 5]])
+    0
+
+    >>> nombre_cycles([[1, 2, 1], [3, 4, 5]])
+    1
+
+    >>> nombre_cycles([[1, 3, 2, 1], [2, 5, 3], [5, 10, 9, 5], [6, 8, 7, 6]])
+    3
     """
     nb_cycles = 0
 
