@@ -1,5 +1,7 @@
+from collections.abc import Hashable
 from typing import Any
 
+Node = Hashable
 from networkx import DiGraph, Graph
 
 # couleurs utilisées pour les parcours
@@ -68,12 +70,20 @@ def deux_connexite(chaines: list[list[int]], graphe_ponts: Graph) -> tuple[bool,
     return deux_arete_connexe, deux_sommet_connexe
 
 
-def est_connexe(couleur: dict):
+def est_connexe(couleur: dict[Node, int]) -> bool:
     """Renvoie True si le graphe est connexe, False sinon.
     On vérifie qu'il ne reste aucun sommet blanc.
 
-    couleur est un dict dict[Graph.nodes, int] (todo: type invalide mais donne une
-    bonne idée)
+    Example
+    ---
+    >>> est_connexe({1: BLANC, 2: NOIR})
+    False
+
+    >>> est_connexe({1: BLANC, 2: BLANC})
+    False
+
+    >>> est_connexe({1: NOIR, 2: NOIR})
+    True
     """
     return BLANC not in couleur.values()
 

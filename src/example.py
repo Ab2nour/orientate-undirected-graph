@@ -48,7 +48,6 @@ graphe_ponts = resultat2["graphe_ponts"]
 couleur = resultat2["couleur"]
 
 ## todo
-
 ponts = graphe_ponts.edges
 
 print(f"nb de cycles : {nombre_cycles(chaines)}")
