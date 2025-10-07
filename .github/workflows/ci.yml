@@ -1,6 +1,13 @@
 name: CI
 
-on: pull_request
+on:
+  push:
+    branches:
+      - "dev"
+      - "main"
+  pull_request:
+    branches:
+      - "main"
 
 jobs:
   qa-py:
