@@ -12,20 +12,22 @@ color_options: Final[dict[str, str]] = {
 }
 
 
-def draw_graph(graph: nx.Graph) -> None:
+def draw_graph(graph: nx.Graph) -> plt.Figure:
     """Draws the graph `graph` with our default presets.
 
     Example
     ---
     >>> example = nx.Graph([(1, 2), (1, 3), (2, 3)])
-    >>> draw_graph(example)
+    >>> plot = draw_graph(example)
     """
+    fig = plt.figure()
     plt.axis("off")
 
     nx.draw_networkx(
         graph,
         **color_options
     )
+    return fig
 
 
 def couleur_aleatoire() -> tuple[float, float, float]:
